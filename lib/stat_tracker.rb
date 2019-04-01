@@ -14,17 +14,19 @@ class StatTracker
   rec def get_total_score(inp, out) #::[Games] -> [Total Scores]
     return out if inp.empty?
     x, *xs = inp
-    out << x[:home_goals] + x[:away_goals]
+    out << x[:home_goals].to_i + x[:away_goals].to_i
     get_total_score(xs, out)
   end
 
   rec def get_score_differences(inp, out)
     return out if inp.empty?
     x, *xs = inp
-    if x[:home_goals] >= x[:away_goals]
-      out << x[:home_goals] - x[:away_goals]
+    home = x[:home_goals].to_i
+    away = x[:away_goals].to_i
+    if home >= away
+      out << home - away
     else
-      out << x[:away_goals] - x[:home_goals]
+      out << away - home
     end
     get_score_differences(xs, out)
   end
