@@ -1,10 +1,14 @@
+require './lib/parse'
+require './lib/decor/rec'
+
 class StatTracker
   extend Recursive
+  attr_reader :highest_total_score, :lowest_total_score, :biggest_blowout, \
+  :percentage_home_wins, :percentage_visitor_wins, :count_games_season
   def initialize(locations)
     parser = ParseCSV.new if locations.values.all? {|x| File.extname(x) == ".csv"}
     @games = parser.parse(locations[:games])
-    @total_scores = nil; @differences = nil
-    @homeWins = nil; @visitorWins = nil
+    @gameStats = Hash.new(nil)
     @teams = parser.parse(locations[:teams])
     @stats = parser.parse(locations[:stats])
   end
@@ -28,34 +32,38 @@ class StatTracker
   end
 
   def highest_total_score
-    if !@total_scores.defined?
-      @total_scores = get_total_score(@games, [])
+    if !@game_stats[:highest].defined?
+      @game_stats[:highest] = get_total_score(@games, []).max
     end
-    return @total_scores.max
+    return @game_stats[:highest]
   end
 
   def lowest_total_score
-    if !@total_scores.defined?
-      @total_scores = get_total_score(@games, [])
+    if !@game_stats[:lowest].defined?
+      @game_stats[:lowest] = get_total_score(@games, []).min
     end
-    return @total_scores.min
+    return @game_stats[:lowest]
   end
 
   def biggest_blowout
-    if !@differences.defined?
-      @differences = get_score_differences(@games, [])
+    if !@game_stats[:difference].defined?
+      @game_stats[:difference] = get_score_differences(@games, []).max
     end
-    return @differences.max
+    return @game_stats[:difference]
   end
 
   def percentage_home_wins
-    @homeWins = @games.count {|x| x[:home_goals] > x[:away_goals]}.to_f if !@homeWins.defined?
-    return (@games.count / @homeWins).round(3)
+    if !@game_stats[:home_wins].defined?
+      homeWins = @games.count {|x| x[:home_goals] > x[:away_goals]}.to_f
+      @game_stats[:home_wins] = (@games.count / homeWins).round(3)
+    end
   end
 
-  def percentage_visitor_wins
-    @visitorWins = @games.count {|x| x[:away_goals] > x[:home_goals]}.to_f if !@visitorWins.defined?
-    return (@games.count / @visitorWins).round(3)
+  def percentage_away_wins
+    if !@game_stats[:away_wins].defined?
+      awayWins = @games.count {|x| x[:away_goals] > x[:home_goals]}.to_f
+      @game_stats[:away_wins] = (@games.count / awayWins).round(3)
+    end
   end
 
   def count_of_games_by_season
