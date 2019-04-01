@@ -55,20 +55,21 @@ class StatTracker
   def percentage_home_wins
     if !@game_stats.has_key?(:home_wins)
       homeWins = @games.count {|x| x[:home_goals] > x[:away_goals]}.to_f
-      @game_stats[:home_wins] = (@games.count / homeWins).round(3)
+      @game_stats[:home_wins] = ((homeWins / @games.count) * 100.0).round(3)
     end
     return @game_stats[:home_wins]
   end
 
-  def percentage_away_wins
+  def percentage_visitor_wins
     if !@game_stats.has_key?(:away_wins)
       awayWins = @games.count {|x| x[:away_goals] > x[:home_goals]}.to_f
-      @game_stats[:away_wins] = (@games.count / awayWins).round(3)
+      @game_stats[:away_wins] = ((awayWins / @games.count) * 100.0).round(3)
     end
     return @game_stats[:away_wins]
   end
 
   def count_of_games_by_season
+
   end
 
   def average_goals_per_game
