@@ -3,7 +3,7 @@ class StatTracker
   def initialize(locations)
     parser = ParseCSV.new if locations.values.all? {|x| File.extname(x) == ".csv"}
     @games = parser.parse(locations[:games])
-    @total_scores = nil
+    @total_scores = nil; @differences = nil
     @teams = parser.parse(locations[:teams])
     @stats = parser.parse(locations[:stats])
   end
@@ -13,6 +13,17 @@ class StatTracker
     x, *xs = inp
     out << x[:home_goals] + x[:away_goals]
     get_total_score(xs, out)
+  end
+
+  rec def get_score_differences(inp,out)
+    return out if inp.empty?
+    x, *xs = inp
+    if x[:home_goals] >= x[:away_goals]
+      out << x[:home_goals] - x[:away_goals]
+    else
+      out << x[:away_goals] - x[:home_goals]
+    end
+    get_score_differences(xs, out)
   end
 
   def highest_total_score
@@ -30,7 +41,10 @@ class StatTracker
   end
 
   def biggest_blowout
-
+    if !@differences.defined?
+      @differences = get_score_differences(@games, [])
+    end
+    return @differences.max
   end
 
   def percentage_home_wins
