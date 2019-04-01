@@ -50,12 +50,12 @@ class StatTracker
 
   def percentage_home_wins
     @homeWins = @games.count {|x| x[:home_goals] > x[:away_goals]}.to_f if !@homeWins.defined?
-    return @games.count / @homeWins
+    return (@games.count / @homeWins).round(3)
   end
 
   def percentage_visitor_wins
     @visitorWins = @games.count {|x| x[:away_goals] > x[:home_goals]}.to_f if !@visitorWins.defined?
-    return @games.count / @visitorWins
+    return (@games.count / @visitorWins).round(3)
   end
 
   def count_of_games_by_season
