@@ -4,6 +4,7 @@ class StatTracker
     parser = ParseCSV.new if locations.values.all? {|x| File.extname(x) == ".csv"}
     @games = parser.parse(locations[:games])
     @total_scores = nil; @differences = nil
+    @homeWins = nil; @visitorWins = nil
     @teams = parser.parse(locations[:teams])
     @stats = parser.parse(locations[:stats])
   end
@@ -15,7 +16,7 @@ class StatTracker
     get_total_score(xs, out)
   end
 
-  rec def get_score_differences(inp,out)
+  rec def get_score_differences(inp, out)
     return out if inp.empty?
     x, *xs = inp
     if x[:home_goals] >= x[:away_goals]
@@ -48,10 +49,13 @@ class StatTracker
   end
 
   def percentage_home_wins
-
+    @homeWins = @games.count {|x| x[:home_goals] > x[:away_goals]}.to_f if !@homeWins.defined?
+    return @games.count / @homeWins
   end
 
   def percentage_visitor_wins
+    @visitorWins = @games.count {|x| x[:away_goals] > x[:home_goals]}.to_f if !@visitorWins.defined?
+    return @games.count / @visitorWins
   end
 
   def count_of_games_by_season
