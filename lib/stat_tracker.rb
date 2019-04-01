@@ -3,8 +3,6 @@ require './lib/decor/rec'
 
 class StatTracker
   extend Recursive
-  attr_reader :highest_total_score, :lowest_total_score, :biggest_blowout, \
-  :percentage_home_wins, :percentage_visitor_wins, :count_games_season
   def initialize(locations)
     parser = ParseCSV.new if locations.values.all? {|x| File.extname(x) == ".csv"}
     @games = parser.parse(locations[:games])
@@ -57,6 +55,7 @@ class StatTracker
       homeWins = @games.count {|x| x[:home_goals] > x[:away_goals]}.to_f
       @game_stats[:home_wins] = (@games.count / homeWins).round(3)
     end
+    return @game_stats[:home_wins]
   end
 
   def percentage_away_wins
@@ -64,6 +63,7 @@ class StatTracker
       awayWins = @games.count {|x| x[:away_goals] > x[:home_goals]}.to_f
       @game_stats[:away_wins] = (@games.count / awayWins).round(3)
     end
+    return @game_stats[:away_wins]
   end
 
   def count_of_games_by_season
