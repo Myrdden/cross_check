@@ -21,6 +21,3 @@ class ParseCSV
     hashify(keys, values, out)
   end
 end
-
-dummy = ParseCSV.new
-puts dummy.parse("data/game.csv")
