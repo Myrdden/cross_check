@@ -1,12 +1,12 @@
-require './lib/parse'
 require './lib/decor/rec'
+require './lib/parse'
 
 class StatTracker
   extend Recursive
   def initialize(locations)
     parser = ParseCSV.new if locations.values.all? {|x| File.extname(x) == ".csv"}
     @games = parser.parse(locations[:games])
-    @gameStats = Hash.new(nil)
+    @game_stats = Hash.new
     @teams = parser.parse(locations[:teams])
     @stats = parser.parse(locations[:stats])
   end
@@ -30,28 +30,28 @@ class StatTracker
   end
 
   def highest_total_score
-    if !@game_stats[:highest].defined?
+    if !@game_stats.has_key?(:highest)
       @game_stats[:highest] = get_total_score(@games, []).max
     end
     return @game_stats[:highest]
   end
 
   def lowest_total_score
-    if !@game_stats[:lowest].defined?
+    if !@game_stats.has_key?(:lowest)
       @game_stats[:lowest] = get_total_score(@games, []).min
     end
     return @game_stats[:lowest]
   end
 
   def biggest_blowout
-    if !@game_stats[:difference].defined?
+    if !@game_stats.has_key?(:difference)
       @game_stats[:difference] = get_score_differences(@games, []).max
     end
     return @game_stats[:difference]
   end
 
   def percentage_home_wins
-    if !@game_stats[:home_wins].defined?
+    if !@game_stats.has_key?(:home_wins)
       homeWins = @games.count {|x| x[:home_goals] > x[:away_goals]}.to_f
       @game_stats[:home_wins] = (@games.count / homeWins).round(3)
     end
@@ -59,7 +59,7 @@ class StatTracker
   end
 
   def percentage_away_wins
-    if !@game_stats[:away_wins].defined?
+    if !@game_stats.has_key?(:away_wins)
       awayWins = @games.count {|x| x[:away_goals] > x[:home_goals]}.to_f
       @game_stats[:away_wins] = (@games.count / awayWins).round(3)
     end
