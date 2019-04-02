@@ -91,8 +91,17 @@ class Teams
     return @team_stats[:fewest_goals_scored][team_ID]
   end
 
-  def favourite_opponent(team)
-  end
+  # def favourite_opponent(team)
+  #   team_ID = team.to_sym
+  #   if !@team_stats.has_key?(:fav_opponent)
+  #     @team_stats[:fav_opponent] = {}
+  #   end
+  #   if !@team_stats[:fav_opponent].has_key?(team_ID)
+  #     team_games = @stats.find_all {|stat| stat[:team_id] == team}
+  #
+  #   end
+  #   return @team_stats[:fav_opponent][team_ID]
+  # end
 
   def rival(team)
   end
