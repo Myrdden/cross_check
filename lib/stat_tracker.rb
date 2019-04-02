@@ -19,6 +19,4 @@ class StatTracker
   def count_of_games_by_season; return @games.count_of_games_by_season end
   def average_goals_per_game; return @games.average_goals_per_game end
   def average_goals_by_season; return @games.average_goals_by_season end
-
-
 end
