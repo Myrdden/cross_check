@@ -7,8 +7,8 @@ class StatTracker
   def initialize(locations)
     parser = ParseCSV.new if locations.values.all? {|x| File.extname(x) == ".csv"}
     @games = Games.new(parser.parse(locations[:games]))
-    @teams = Teams.new(parser.parse(locations[:teams]))
-    @stats = Stat.new(parser.parse(locations[:stats]))
+    @stats = Stats.new(parser.parse(locations[:stats]))
+    @teams = Teams.new(parser.parse(locations[:teams]), @stats)
   end
 
   def highest_total_score; return @games.highest_total_score end
@@ -19,6 +19,6 @@ class StatTracker
   def count_of_games_by_season; return @games.count_of_games_by_season end
   def average_goals_per_game; return @games.average_goals_per_game end
   def average_goals_by_season; return @games.average_goals_by_season end
-  
+
 
 end

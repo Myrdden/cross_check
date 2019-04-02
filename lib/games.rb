@@ -4,7 +4,7 @@ class Games
   extend Recursive
   def initialize(games)
     @games = games
-    @game_stats = Hash.new
+    @game_stats = {}
   end
 
   rec def get_total_score(inp, out) #::[Games] -> [Total Scores]
