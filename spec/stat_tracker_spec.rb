@@ -51,7 +51,7 @@ describe StatTracker do
   end
 
   it "can find the average goals by season" do
-    expect(@stat_tracker.average_goals_per_game).to eq(5.2)
+    expect(@stat_tracker.average_goals_by_season).to eq({"20122013"=>5.2})
   end
 
 end

@@ -89,7 +89,7 @@ class Games
       seasons = @games.map {|x| x[:season]}.uniq
       @game_stats[:average_season] = {}
       seasons.each do |season|
-        season_games = @games.map {|x| x[:season] == season}
+        season_games = @games.find_all {|x| x[:season] == season}
         @game_stats[:average_season][season] = \
           (get_total_score(season_games, []).sum / season_games.count.to_f).round(2)
       end
