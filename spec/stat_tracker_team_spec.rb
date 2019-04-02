@@ -30,4 +30,12 @@ describe StatTracker do
   it "finds the best season" do
     expect(@stat_tracker.best_season(6)).to eq(20122013)
   end
+
+  it "finds the best season" do
+    expect(@stat_tracker.worst_season(6)).to eq(20122013)
+  end
+
+  it "finds the average_win_percentage" do
+    expect(@stat_tracker.average_win_percentage(6)).to eq(56.27)
+  end
 end

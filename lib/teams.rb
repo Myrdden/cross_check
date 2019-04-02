@@ -22,7 +22,6 @@ class Teams
       @team_stats[:best_season] = {}
     end
     if !@team_stats.has_key?(team_ID)
-      #grab all from stats that match id.
       total_games = @stats.stats.map do |stat|
         if stat[:team_id] == team_ID && stat[:won] == "TRUE"
           season_inator(stat[:game_id]).to_i
@@ -35,18 +34,35 @@ class Teams
   end
 
   def worst_season(team)
-    team_ID = team.to_sym
+    team_ID = team.to_s
     if !@team_stats.has_key?(:worst_season)
       @team_stats[:worst_season] = {}
     end
     if !@team_stats.has_key?(team_ID)
-      #LOGIX
+      total_games = @stats.stats.map do |stat|
+        if stat[:team_id] == team_ID && stat[:won] == "FALSE"
+          season_inator(stat[:game_id]).to_i
+        end
+      end.compact
+      temp = total_games.group_by{|season| season}.max_by(&:size)
+      @team_stats[:worst_season][team_ID] = temp[0]
     end
-
-    return @team_stats[:best_season][team_ID]
+    return @team_stats[:worst_season][team_ID]
   end
 
   def average_win_percentage(team)
+    team_ID = team.to_s
+    if !@team_stats.has_key?(:average_win)
+      @team_stats[:average_win] = {}
+    end
+    if !@team_stats.has_key?(team_ID)
+      total_games = @stats.stats.count {|stat| stat[:team_id] == team_ID}
+      won_games = @stats.stats.count {|stat| stat[:team_id] == team_ID && \
+      stat[:won] == "TRUE"}
+      @team_stats[:average_win][team_ID] = ((won_games.to_f / total_games) \
+       * 100).round(2)
+    end
+    return @team_stats[:average_win][team_ID]
   end
 
   def most_goals_scored(team)
