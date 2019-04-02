@@ -28,14 +28,22 @@ describe StatTracker do
   end
 
   it "finds the best season" do
-    expect(@stat_tracker.best_season(6)).to eq(20122013)
+    expect(@stat_tracker.best_season("6")).to eq(20122013)
   end
 
   it "finds the best season" do
-    expect(@stat_tracker.worst_season(6)).to eq(20122013)
+    expect(@stat_tracker.worst_season("6")).to eq(20122013)
   end
 
   it "finds the average_win_percentage" do
-    expect(@stat_tracker.average_win_percentage(6)).to eq(56.27)
+    expect(@stat_tracker.average_win_percentage("6")).to eq(56.27)
+  end
+
+  it "finds most goals scored" do
+    expect(@stat_tracker.most_goals_scored("18")).to eq(9)
+  end
+
+  it "finds fewest goals scored" do
+    expect(@stat_tracker.fewest_goals_scored("18")).to eq(0)
   end
 end

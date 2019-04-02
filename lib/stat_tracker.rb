@@ -22,5 +22,7 @@ class StatTracker
   def best_season(team); return @teams.best_season(team) end
   def worst_season(team); return @teams.worst_season(team) end
   def average_win_percentage(team); return @teams.average_win_percentage(team) end
+  def most_goals_scored(team); return @teams.most_goals_scored(team) end
+  def fewest_goals_scored(team); return @teams.fewest_goals_scored(team) end
 
 end
