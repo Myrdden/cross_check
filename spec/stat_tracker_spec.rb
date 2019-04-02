@@ -43,7 +43,7 @@ describe StatTracker do
   end
 
   it "can find the count of games by season" do
-    expect(@stat_tracker.count_of_games_by_season).to eq({20122013 => 5})
+    expect(@stat_tracker.count_of_games_by_season).to eq({"20122013" => 5})
   end
 
   it "can find the average goals per game" do
