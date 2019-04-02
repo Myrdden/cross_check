@@ -2,6 +2,7 @@ require './lib/decor/rec'
 
 class Games
   extend Recursive
+  attr_reader :games
   def initialize(games)
     @games = games
     @game_stats = {}
