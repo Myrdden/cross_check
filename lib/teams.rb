@@ -17,17 +17,33 @@ class Teams
   end
 
   def best_season(team)
-    team_ID = team.to_sym
+    team_ID = team.to_s
     if !@team_stats.has_key?(:best_season)
       @team_stats[:best_season] = {}
     end
     if !@team_stats.has_key?(team_ID)
-      #LOGIX
+      #grab all from stats that match id.
+      total_games = @stats.stats.map do |stat|
+        if stat[:team_id] == team_ID && stat[:won] == "TRUE"
+          season_inator(stat[:game_id]).to_i
+        end
+      end.compact
+      temp = total_games.group_by{|season| season}.max_by(&:size)
+      @team_stats[:best_season][team_ID] = temp[0]
     end
     return @team_stats[:best_season][team_ID]
   end
 
   def worst_season(team)
+    team_ID = team.to_sym
+    if !@team_stats.has_key?(:worst_season)
+      @team_stats[:worst_season] = {}
+    end
+    if !@team_stats.has_key?(team_ID)
+      #LOGIX
+    end
+
+    return @team_stats[:best_season][team_ID]
   end
 
   def average_win_percentage(team)
