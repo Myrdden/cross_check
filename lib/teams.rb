@@ -12,6 +12,10 @@ class Teams
     return @teams.find {|team| team[:team_id] == team}
   end
 
+  def season_inator(gameID)
+    return gameID[0..3] + (gameID[0..3].to_i + 1).to_s
+  end
+
   def best_season(team)
     team_ID = team.to_sym
     if !@team_stats.has_key?(:best_season)
