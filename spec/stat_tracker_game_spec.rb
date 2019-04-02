@@ -1,5 +1,4 @@
-require 'simplecov'
-SimpleCov.start
+require "./spec/spec_helper"
 require "./lib/stat_tracker"
 
 describe StatTracker do
