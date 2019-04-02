@@ -1,6 +1,6 @@
 require './lib/decor/rec'
 
-class Game
+class Games
   extend Recursive
   def initialize(games)
     @games = games
