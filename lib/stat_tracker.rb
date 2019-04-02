@@ -24,5 +24,6 @@ class StatTracker
   def average_win_percentage(team); return @teams.average_win_percentage(team) end
   def most_goals_scored(team); return @teams.most_goals_scored(team) end
   def fewest_goals_scored(team); return @teams.fewest_goals_scored(team) end
+  def favorite_opponent(team); return @teams.favorite_opponent(team) end
 
 end

@@ -91,17 +91,24 @@ class Teams
     return @team_stats[:fewest_goals_scored][team_ID]
   end
 
-  # def favourite_opponent(team)
-  #   team_ID = team.to_sym
-  #   if !@team_stats.has_key?(:fav_opponent)
-  #     @team_stats[:fav_opponent] = {}
-  #   end
-  #   if !@team_stats[:fav_opponent].has_key?(team_ID)
-  #     team_games = @stats.find_all {|stat| stat[:team_id] == team}
-  #
-  #   end
-  #   return @team_stats[:fav_opponent][team_ID]
-  # end
+  def favorite_opponent(team)
+    team_ID = team.to_sym
+    if !@team_stats.has_key?(:fav_opponent)
+      @team_stats[:fav_opponent] = {}
+    end
+    if !@team_stats[:fav_opponent].has_key?(team_ID)
+      team_games = @stats.group_by {|x| x[:game_id]}
+      team_games = team_games.find_all {|x| x[1].any? {|x| x[:team_id] == team}}
+      opponents = team_games.flat_map {|x| x[1].select {|x| x[:team_id] != team}}
+      p opponents.first
+      opponents = opponents.group_by {|x| x[:team_id]}
+      favourite = opponents.max_by {|x| x[1].count}[0]
+      @team_stats[:fav_opponent][team_ID] = @teams.find {|x| x[:team_id] == favourite}[:teamName]
+      # require 'pry'; binding.pry
+    end
+    p @team_stats[:fav_opponent][team_ID]
+    return @team_stats[:fav_opponent][team_ID]
+  end
 
   def rival(team)
   end

@@ -76,7 +76,6 @@ class Games
   def games_in_seasons
     if !@game_stats.has_key?(:season_games)
       @game_stats[:season_games] = @games.group_by {|x| x[:season]}
-      # require 'pry'; binding.pry
     end
     return @game_stats[:season_games]
   end
