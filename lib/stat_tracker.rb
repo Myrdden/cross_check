@@ -69,10 +69,21 @@ class StatTracker
   end
 
   def count_of_games_by_season
-
+    if !@game_stats.has_key?(:games_season)
+      seasons = @games.map {|x| x[:season]}.uniq
+      @game_stats[:games_season] = {}
+      seasons.each do |season|
+        @game_stats[:games_season][season] = @games.count {|x| x[:season] == season}
+      end
+    end
+    return @game_stats[:games_season]
   end
 
   def average_goals_per_game
+    if !@game_stats.has_key?(:average_game)
+      
+    end
+    return @game_stats[:average_game]
   end
 
   def average_goals_by_season
