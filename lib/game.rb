@@ -1,4 +1,7 @@
+require './lib/decor/rec'
+
 class Game
+  extend Recursive
   def initialize(games)
     @games = games
     @game_stats = Hash.new
@@ -47,16 +50,16 @@ class Game
 
   def percentage_home_wins
     if !@game_stats.has_key?(:home_wins)
-      homeWins = @games.count {|x| x[:home_goals] > x[:away_goals]}.to_f
-      @game_stats[:home_wins] = ((homeWins / @games.count) * 100.0).round(2)
+      home_wins = @games.count {|x| x[:home_goals] > x[:away_goals]}.to_f
+      @game_stats[:home_wins] = ((home_wins / @games.count) * 100.0).round(2)
     end
     return @game_stats[:home_wins]
   end
 
   def percentage_visitor_wins
     if !@game_stats.has_key?(:away_wins)
-      awayWins = @games.count {|x| x[:away_goals] > x[:home_goals]}.to_f
-      @game_stats[:away_wins] = ((awayWins / @games.count) * 100.0).round(2)
+      away_wins = @games.count {|x| x[:away_goals] > x[:home_goals]}.to_f
+      @game_stats[:away_wins] = ((away_wins / @games.count) * 100.0).round(2)
     end
     return @game_stats[:away_wins]
   end
@@ -86,9 +89,9 @@ class Game
       seasons = @games.map {|x| x[:season]}.uniq
       @game_stats[:average_season] = {}
       seasons.each do |season|
-        seasonGames = @games.map {|x| x[:season] == season}
+        season_games = @games.map {|x| x[:season] == season}
         @game_stats[:average_season][season] = \
-          (get_total_score(seasonGames, []).sum / seasonGames.count.to_f).round(2)
+          (get_total_score(season_games, []).sum / season_games.count.to_f).round(2)
       end
     end
     return @game_stats[:average_season]
