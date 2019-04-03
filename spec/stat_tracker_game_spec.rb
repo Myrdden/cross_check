@@ -38,11 +38,11 @@ describe StatTracker do
   end
 
   it "can find the percentage of home wins" do
-    expect(@stat_tracker.percentage_home_wins).to eq(54.95)
+    expect(@stat_tracker.percentage_home_wins).to eq(0.55)
   end
 
   it "can find the percentage of visitor wins" do
-    expect(@stat_tracker.percentage_visitor_wins).to eq(45.05) # check with instructor
+    expect(@stat_tracker.percentage_visitor_wins).to eq(0.45)
   end
 
   it "can find the count of games by season" do

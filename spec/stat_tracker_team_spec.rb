@@ -3,7 +3,7 @@ require "./lib/stat_tracker"
 
 describe StatTracker do
 
-  before do
+  before(:all) do
     game_path = '../cross_check_spec_harness/data/game.csv'
     team_path = '../cross_check_spec_harness/data/team_info.csv'
     game_teams_path = '../cross_check_spec_harness/data/game_teams_stats.csv'
@@ -34,7 +34,7 @@ describe StatTracker do
   end
 
   it "finds the average_win_percentage" do
-    expect(@stat_tracker.average_win_percentage("6")).to eq(56.27)
+    expect(@stat_tracker.average_win_percentage("6")).to eq(0.52)
   end
 
   it "finds most goals scored" do
