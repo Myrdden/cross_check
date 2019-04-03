@@ -66,40 +66,19 @@ class Teams
     return @teams[team].games.min_by {|stat| stat[:goals].to_i}[:goals].to_i
   end
 
-  memo def fetch_opponents(team)
-    return @teams[team].games.group_by {|game| game.against}
-  end
-
-  memo def win_percentages(team)
-    winPercs = {}
-    fetch_opponents(team).each do |k,v|
-      winPercs[k] = (v.count {|x| x.won?} / v.count.to_f).round(2)
-    end
-    return winPercs
-  end
-
   memo def favorite_opponent(team)
-    temp = win_percentages(team).max_by {|_,v| v}
+    temp = @teams[team].win_percentages.max_by {|_,v| v}
     return @teams[temp[0]][:team_name]
   end
-
 
   memo def rival(team)
-    temp = win_percentages(team).min_by {|_,v| v}
+    temp = @teams[team].win_percentages.min_by {|_,v| v}
     return @teams[temp[0]][:team_name]
   end
 
-  memo def win_ratios(team)
-    ratios = []
-    @teams[team].games.each do |game|
-      ratios << game[:goals].to_i - game.against_goals
-    end
-    return ratios
-  end
+  memo def biggest_team_blowout(team); return @teams[team].win_ratios.max.abs end
 
-  def biggest_team_blowout(team); return win_ratios(team).max.abs end
-
-  def worst_loss(team); return win_ratios(team).min.abs end
+  memo def worst_loss(team); return @teams[team].win_ratios.min.abs end
 
   def head_to_head(team)
     #get games played by team, see above for refactor
