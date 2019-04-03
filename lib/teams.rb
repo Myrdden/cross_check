@@ -1,12 +1,12 @@
 require './lib/games'
 
 class Teams
-  def initialize(teams, games, stats)
-    @games = games.games
+  def initialize(teams)
     @teams = teams
-    @stats = stats.stats
     @team_stats = {}
   end
+
+  def [](teamID); return @teams[teamID.to_sym] end
 
   def team_info(team)
     return @teams.find {|team| team[:team_id] == team}

@@ -1,48 +1,50 @@
-require './lib/decor/rec'
 require './lib/game'
 require './lib/team'
 
 class ParseCSV
-  extend Recursive
+  def self.split_words(line)
+    return line.chomp.split(/,/).map {|x| x[0] == "\"" ? x[1..-2] : x}
+  end
+
   def self.teams_setup(teamfile)
     lines= IO.readlines(teamfile)
     teams = {}
-    keys = words(lines.pop)[1..-1]
+    keys = self.split_words(lines.shift)[1..-1]
     lines.each do |line|
-      line = words(line)
-      teams[line[0].to_sym] = Team.new(line[0].to_i, hashify(keys, line[1..-1], {}))
+      line = self.split_words(line)
+      teams[line[0].to_sym] = Team.new(line[0].to_i, self.hashify(keys, line[1..-1]))
     end
     return teams
   end
 
-  def words(line)
-    return line.chomp.split(/,/).map {|x| x[0] == "\"" ? x[1..-2] : x}
-  end
-
   def self.games_setup(teams, gamefile, statfile)
-    @stats = IO.readlines(statfile).map(&:words)
-    @keys = @stats.pop
+    @stats = IO.readlines(statfile).map {|x| split_words(x)}
+    @keys = @stats.shift
     lines = IO.readlines(gamefile)
-    games = []
-    keys = words(lines[0])
+    gamesOut = []
+    keys = self.split_words(lines.shift)
     lines.each do |line|
-      games << hashify(keys, line, {})
-      teams[line[4].to_sym].games << Game.new(line[4], line[5], getStats(line[0], line[4]))
-      teams[line[5].to_sym].games << Game.new(line[5], line[4], getStats(line[0], line[5]))
+      line = self.split_words(line)
+      gamesOut << self.hashify(keys, line)
+      p line[4].to_sym
+      teams[line[4].to_sym].games << Game.new(line[4], line[5], self.getStats(line[0], line[4]))
+      teams[line[5].to_sym].games << Game.new(line[5], line[4], self.getStats(line[0], line[5]))
     end
-    return games
+    return gamesOut
   end
 
-  def getStats(game, team)
+  def self.getStats(game, team)
     stat = @stats.find {|x| x[0] == game && x[1] == team}
-    return hashify(@keys, stat, {})
+    return self.hashify(@keys, stat) if stat != nil
+    return {}
   end
 
-  rec def hashify(keysIn, valuesIn, out)
-    return out if keysIn.empty? || valuesIn.empty?
-    key, *keys = keysIn
-    value, *values = valuesIn
-    out[key] = value
-    hashify(keys, values, out)
+  def self.hashify(keysIn, valuesIn)
+    out = keysIn.inject({}) do |key, ele|
+      p key
+      key[ele] = valuesIn[keysIn.find_index(ele)]
+      key
+    end
+    return out
   end
 end
