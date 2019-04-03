@@ -2,6 +2,7 @@ require './lib/decor/rec'
 
 class Games
   extend Recursive
+  attr_reader :games
   def initialize(games)
     @games = games
     @game_stats = {}
@@ -64,18 +65,6 @@ class Games
     return @game_stats[:away_wins]
   end
 
-  def count_of_games_by_season
-    if !@game_stats.has_key?(:games_season)
-      seasons = @games.map {|x| x[:season]}.uniq
-      @game_stats[:games_season] = {}
-      seasons.each do |season|
-        @game_stats[:games_season][season] = @games.count \
-          {|x| x[:season] == season}
-      end
-    end
-    return @game_stats[:games_season]
-  end
-
   def average_goals_per_game
     if !@game_stats.has_key?(:average_game)
       @game_stats[:average_game] = (get_total_score(@games, []).sum / \
@@ -84,14 +73,31 @@ class Games
     return @game_stats[:average_game]
   end
 
+  def games_in_seasons
+    if !@game_stats.has_key?(:season_games)
+      @game_stats[:season_games] = @games.group_by {|x| x[:season]}
+    end
+    return @game_stats[:season_games]
+  end
+
+  def count_of_games_by_season
+    if !@game_stats.has_key?(:games_season)
+      seasons = games_in_seasons
+      @game_stats[:games_season] = {}
+      seasons.each do |season|
+        @game_stats[:games_season][season[0]] = season[1].count
+      end
+    end
+    return @game_stats[:games_season]
+  end
+
   def average_goals_by_season
     if !@game_stats.has_key?(:average_season)
-      seasons = @games.map {|x| x[:season]}.uniq
+      seasons = games_in_seasons
       @game_stats[:average_season] = {}
       seasons.each do |season|
-        season_games = @games.find_all {|x| x[:season] == season}
-        @game_stats[:average_season][season] = \
-          (get_total_score(season_games, []).sum / season_games.count.to_f).round(2)
+        @game_stats[:average_season][season[0]] = \
+          (get_total_score(season[1], []).sum / season[1].count.to_f).round(2)
       end
     end
     return @game_stats[:average_season]
