@@ -87,18 +87,42 @@ class Teams
   memo def seasonal_summary(team)
     output = {}
     seasons = @teams[team].games.group_by {|x| x.season}
-    seasons.map do |season, game|
+    seasons.map do |season, games|
       temp = games.group_by {|x| x.game_type}
-      p season
+      p temp.keys
       output[season] = {}
-      output[season][:regular_season] = season_stats(temp["R"])
-      output[season][:postseason] = season_stats(temp["P"])
+      if temp["R"]
+        output[season][:regular_season] = season_stats(temp["R"])
+      else
+        output[season][:regular_season] = null_stats
+      end
+      if temp["P"]
+        output[season][:postseason] = season_stats(temp["P"])
+      else
+        output[season][:postseason] = null_stats
+      end
     end
     p output
     return output
   end
 
   def season_stats(games)
-    p Team.win_ratios(games)
+    output = {}
+    output[:win_percentage] = Team.average_win_percent(games)
+    output[:average_goals_scored] = Team.average_goals_for(games)
+    output[:average_goals_against] = Team.average_goals_against(games)
+    output[:total_goals_scored] = Team.total_goals_for(games)
+    output[:total_goals_against] = Team.total_goals_against(games)
+    return output
+  end
+
+  def null_stats
+    output = {}
+    output[:win_percentage] = 0.0
+    output[:average_goals_scored] = 0.0
+    output[:average_goals_against] = 0.0
+    output[:total_goals_scored] = 0
+    output[:total_goals_against] = 0
+    return output
   end
 end
