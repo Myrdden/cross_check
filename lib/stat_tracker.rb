@@ -30,5 +30,6 @@ class StatTracker
   def biggest_team_blowout(team); return @teams.biggest_team_blowout(team) end
   def worst_loss(team); return @teams.worst_loss(team) end
   def head_to_head(team); return @teams.head_to_head(team) end
+  def seasonal_summary(team); return @teams.seasonal_summary(team) end
 
 end

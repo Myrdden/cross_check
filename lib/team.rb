@@ -30,4 +30,12 @@ class Team
     end
     return ratios
   end
+
+  def self.win_ratios(games)
+    ratios = []
+    games.each do |game|
+      ratios << game[:goals].to_i - game.against_goals
+    end
+    return ratios
+  end
 end

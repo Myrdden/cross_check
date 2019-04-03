@@ -81,12 +81,24 @@ class Teams
   memo def worst_loss(team); return @teams[team].win_ratios.min.abs end
 
   def head_to_head(team)
-    #get games played by team, see above for refactor
-    #get a subset - each loop of opponents? with every game played by that team
-    #since we already grouped by games olayed by the team above, we can use the win/loss to
-    #extrapolte a win percentage.
+    return @teams[team].win_percentages.transform_keys {|k| @teams[k][:team_name]}
   end
 
-  def seasonal_summary(team)
+  memo def seasonal_summary(team)
+    output = {}
+    seasons = @teams[team].games.group_by {|x| x.season}
+    seasons.map do |season, game|
+      temp = games.group_by {|x| x.game_type}
+      p season
+      output[season] = {}
+      output[season][:regular_season] = season_stats(temp["R"])
+      output[season][:postseason] = season_stats(temp["P"])
+    end
+    p output
+    return output
+  end
+
+  def season_stats(games)
+    p Team.win_ratios(games)
   end
 end
