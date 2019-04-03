@@ -1,111 +1,73 @@
 require './lib/games'
 
+module MemoTeam
+  def memo(name)
+    fn = instance_method(name)
+    @@team_stats = Hash.new{|k,v| k[v] = {}} if !defined? @@team_stats
+
+    define_method(name) do |team|
+      team_ID = team.to_sym
+      if !@@team_stats.has_key?(name)
+        @@team_stats[name] = {}
+      end
+      if !@@team_stats[name].has_key?(team_ID)
+        @@team_stats[name][team_ID] = fn.bind(self).call(team)
+      end
+      return @@team_stats[name][team_ID]
+    end
+  end
+end
+
 class Teams
+  extend MemoTeam
   def initialize(teams)
     @teams = teams
-    @team_stats = {}
   end
 
-  def [](teamID); return @teams[teamID.to_sym] end
+  def [](teamID); return @teams[teamID] end
 
   def team_info(team)
-    return @teams.find {|team| team[:team_id] == team}
+    return {team_id: @teams[team].id}.merge(@teams[team].stats)
   end
 
   def season_inator(gameID)
     return gameID[0..3] + (gameID[0..3].to_i + 1).to_s
   end
 
-  def best_season(team)
-    team_ID = team.to_sym
-    if !@team_stats.has_key?(:best_season)
-      @team_stats[:best_season] = {}
+  memo def best_season(team)
+    total_games = []
+    @teams[team].games.each do |game|
+      total_games << season_inator(game.id).to_i if game.won?
     end
-    if !@team_stats[:best_season].has_key?(team_ID)
-      total_games = @stats.map do |stat|
-        if stat[:team_id] == team && stat[:won] == "TRUE"
-          season_inator(stat[:game_id]).to_i
-        end
-      end.compact
-      temp = total_games.group_by{|season| season}.max_by(&:size)
-      @team_stats[:best_season][team_ID] = temp[0]
-    end
-    return @team_stats[:best_season][team_ID]
+    temp = total_games.group_by {|x| x}.max_by(&:size)
+    return temp[0]
   end
 
-  def worst_season(team)
-    team_ID = team.to_sym
-    if !@team_stats.has_key?(:worst_season)
-      @team_stats[:worst_season] = {}
+  memo def worst_season(team)
+    total_games = []
+    @teams[team].games.each do |game|
+      total_games << season_inator(game.id).to_i if game.won?
     end
-    if !@team_stats[:worst_season].has_key?(team_ID)
-      total_games = @stats.map do |stat|
-        if stat[:team_id] == team && stat[:won] == "FALSE"
-          season_inator(stat[:game_id]).to_i
-        end
-      end.compact
-      temp = total_games.group_by{|season| season}.max_by(&:size)
-      @team_stats[:worst_season][team_ID] = temp[0]
-    end
-    return @team_stats[:worst_season][team_ID]
+    temp = total_games.group_by {|x| x}.min_by(&:size)
+    return temp[0]
   end
 
-  def average_win_percentage(team)
-    team_ID = team.to_sym
-    if !@team_stats.has_key?(:average_win)
-      @team_stats[:average_win] = {}
-    end
-    if !@team_stats[:average_win].has_key?(team_ID)
-      total_games = @stats.count {|stat| stat[:team_id] == team}
-      won_games = @stats.count {|stat| stat[:team_id] == team && \
-      stat[:won] == "TRUE"}
-      @team_stats[:average_win][team_ID] = ((won_games.to_f / total_games) \
-       * 100).round(2)
-    end
-    return @team_stats[:average_win][team_ID]
+  memo def average_win_percentage(team)
+    total_games = @teams[team].games.count
+    won_games = @teams[team].games.count {|game| game.won?}
+    return (won_games / total_games.to_f).round(2)
   end
 
-  def most_goals_scored(team)
-    team_ID = team.to_sym
-    if !@team_stats.has_key?(:most_goals_scored)
-      @team_stats[:most_goals_scored] = {}
-    end
-    if !@team_stats[:most_goals_scored].has_key?(team_ID)
-      team_games = @stats.find_all{|stat| stat[:team_id] == team}
-      temp = team_games.max_by{|stat| stat[:goals].to_i}
-      @team_stats[:most_goals_scored][team_ID] = temp[:goals].to_i
-    end
-    return @team_stats[:most_goals_scored][team_ID]
+  memo def most_goals_scored(team)
+    return @teams[team].games.max_by {|stat| stat[:goals].to_i}[:goals].to_i
   end
 
-  def fewest_goals_scored(team)
-    team_ID = team.to_sym
-    if !@team_stats.has_key?(:fewest_goals_scored)
-      @team_stats[:fewest_goals_scored] = {}
-    end
-    if !@team_stats[:fewest_goals_scored].has_key?(team_ID)
-      team_games = @stats.find_all{|stat| stat[:team_id] == team}
-      temp = team_games.min_by{|stat| stat[:goals].to_i}
-      @team_stats[:fewest_goals_scored][team_ID] = temp[:goals].to_i
-    end
-    return @team_stats[:fewest_goals_scored][team_ID]
+  memo def fewest_goals_scored(team)
+    return @teams[team].games.min_by {|stat| stat[:goals].to_i}[:goals].to_i
   end
 
   def favorite_opponent(team)
-    team_ID = team.to_sym
-    if !@team_stats.has_key?(:fav_opponent)
-      @team_stats[:fav_opponent] = {}
-    end
-    if !@team_stats[:fav_opponent].has_key?(team_ID)
-      team_games = @stats.group_by {|x| x[:game_id]}
-      team_games2 = team_games.find_all {|x| x[1].any? {|x| x[:team_id] == team}}
-      opponents = team_games2.flat_map {|x| x[1].select {|x| x[:team_id] != team}}
-      opponents2 = opponents.group_by {|x| x[:team_id]}.to_a
-      favourite = opponents2.max_by {|x| x[1].count}[0]
-      @team_stats[:fav_opponent][team_ID] = @teams.find {|x| x[:team_id] == favourite}[:teamName]
-    end
-    p @team_stats[:fav_opponent][team_ID]
-    return @team_stats[:fav_opponent][team_ID]
+
   end
 
   def rival(team)
@@ -134,7 +96,6 @@ class Teams
     #get a subset - each loop of opponents? with every game played by that team
     #since we already grouped by games olayed by the team above, we can use the win/loss to
     #extrapolte a win percentage.
-    require 'pry'; binding.pry
   end
 
   def seasonal_summary(team)

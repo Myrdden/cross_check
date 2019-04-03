@@ -1,7 +1,7 @@
 require './lib/decor/rec'
 
 class Team
-  attr_reader :id
+  attr_reader :id, :stats
   attr_accessor :games
   def initialize(id, line)
     @id = id

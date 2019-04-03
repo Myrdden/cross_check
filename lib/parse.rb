@@ -12,7 +12,7 @@ class ParseCSV
     keys = self.split_words(lines.shift)[1..-1]
     lines.each do |line|
       line = self.split_words(line)
-      teams[line[0].to_sym] = Team.new(line[0].to_i, self.hashify(keys, line[1..-1]))
+      teams[line[0]] = Team.new(line[0].to_i, self.hashify(keys, line[1..-1]))
     end
     return teams
   end
@@ -27,8 +27,8 @@ class ParseCSV
     lines.each do |line|
       line = self.split_words(line)
       gamesOut << self.hashify(keys, line)
-      teams[line[4].to_sym].games << Game.new(line[4], line[5], self.getStats(line[0], line[4]))
-      teams[line[5].to_sym].games << Game.new(line[5], line[4], self.getStats(line[0], line[5], true))
+      teams[line[4]].games << Game.new(line[0], line[5], self.getStats(line[0], line[4]))
+      teams[line[5]].games << Game.new(line[0], line[4], self.getStats(line[0], line[5], true))
     end
     return gamesOut
   end

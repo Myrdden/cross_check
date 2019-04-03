@@ -9,4 +9,7 @@ class Game
     @won = stats[:won] == "TRUE"
   end
 
+  def [](key); return @stats[key] end
+  def won?; return @won end
+  def home?; return @home end
 end
