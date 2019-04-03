@@ -47,7 +47,7 @@ describe StatTracker do
   end
 
   it "finds the average_win_percentage" do
-    expect(@stat_tracker.average_win_percentage("6")).to eq(0.52)
+    expect(@stat_tracker.average_win_percentage("18")).to eq(0.52)
   end
 
   it "finds most goals scored" do

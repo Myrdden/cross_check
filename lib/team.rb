@@ -9,4 +9,5 @@ class Team
     @games = []
   end
 
+  def [](stat); return @stats[stat] end
 end

@@ -66,9 +66,20 @@ class Teams
     return @teams[team].games.min_by {|stat| stat[:goals].to_i}[:goals].to_i
   end
 
-  def favorite_opponent(team)
-
+  memo def win_percentages(team)
+    opponents = @teams[team].games.group_by {|game| game.against}
+    winPercs = {}
+    opponents.each do |k,v|
+      winPercs[k] = (v.count {|x| x.won?} / v.count.to_f).round(2)
+    end
+    return winPercs
   end
+
+  memo def favorite_opponent(team)
+    temp = win_percentages(team).max_by {|k,v| v}
+    return @teams[temp[0]][:teamName]
+  end
+
 
   def rival(team)
     #find all games played by team given by argument
