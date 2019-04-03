@@ -27,7 +27,7 @@ class Teams
   def [](teamID); return @teams[teamID] end
 
   def team_info(team)
-    return {team_id: @teams[team].id}.merge(@teams[team].stats)
+    return {"team_id" => @teams[team].id.to_s}.merge(@teams[team].stats.transform_keys(&:to_s))
   end
 
   def season_inator(gameID)
@@ -76,15 +76,14 @@ class Teams
   end
 
   memo def favorite_opponent(team)
-    temp = win_percentages(team).max_by {|k,v| v}
-    return @teams[temp[0]][:teamName]
+    temp = win_percentages(team).max_by {|_,v| v}
+    return @teams[temp[0]][:team_name]
   end
 
 
   def rival(team)
-    #find all games played by team given by argument
-    #find all games played against each other team?
-    #find
+    temp = win_percentages(team).min_by {|_,v| v}
+    return @teams[temp[0]][:team_name]
   end
 
   def biggest_team_blowout
@@ -95,10 +94,6 @@ class Teams
 
   def worst_loss(team)
     #inverse of above
-  end
-
-  def fetch_opponents(team)
-    return @teams.reject {|x| x[:team_id] == team}
   end
 
   def head_to_head(team)

@@ -19,12 +19,14 @@ class StatTracker
   def count_of_games_by_season; return @games.count_of_games_by_season end
   def average_goals_per_game; return @games.average_goals_per_game end
   def average_goals_by_season; return @games.average_goals_by_season end
+  def team_info(team); return @teams.team_info(team) end
   def best_season(team); return @teams.best_season(team) end
   def worst_season(team); return @teams.worst_season(team) end
   def average_win_percentage(team); return @teams.average_win_percentage(team) end
   def most_goals_scored(team); return @teams.most_goals_scored(team) end
   def fewest_goals_scored(team); return @teams.fewest_goals_scored(team) end
   def favorite_opponent(team); return @teams.favorite_opponent(team) end
+  def rival(team); return @teams.rival(team) end
   def head_to_head(team); return @teams.head_to_head(team) end
 
 end

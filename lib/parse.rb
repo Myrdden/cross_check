@@ -39,10 +39,14 @@ class ParseCSV
     return {}
   end
 
+  def self.snake_case(key)
+    key.gsub(/[[:upper:]]/) {|x| '_' + x.downcase}
+  end
+
   def self.hashify(keysIn, valuesIn)
     out = {}
     keysIn.each_with_index do |x, i|
-      out[x.to_sym] = valuesIn[i]
+      out[self.snake_case(x).to_sym] = valuesIn[i]
     end
     return out
   end
