@@ -25,6 +25,19 @@ describe StatTracker do
     expect(@stat_tracker).to be_a(StatTracker)
   end
 
+  it "it finds the team information" do
+    expected = {
+      "team_id" => "18",
+      "franchise_id" => "34",
+      "short_name" => "Nashville",
+      "team_name" => "Predators",
+      "abbreviation" => "NSH",
+      "link" => "/api/v1/teams/18"
+    }
+
+    expect(@stat_tracker.team_info("18")).to eq expected
+  end
+
   it "finds the best season" do
     expect(@stat_tracker.best_season("6")).to eq(20122013)
   end
@@ -200,6 +213,6 @@ describe StatTracker do
           }
         }
       }
-      expect(@stat_tracker.seasonal_summary("18")).to eq expected
-    end
+    expect(@stat_tracker.seasonal_summary("18")).to eq expected
+  end
 end
