@@ -109,12 +109,19 @@ class Teams
   end
 
   def rival(team)
+    #find all games played by team given by argument
+    #find all games played against each other team?
+    #find
   end
 
   def biggest_team_blowout
+    #use normal biggest blowout algo with an argument
+    #gather subest of all games played by team.
+    #refactor code to get all games played by team reused several times.
   end
 
   def worst_loss(team)
+    #inverse of above
   end
 
   def fetch_opponents(team)
@@ -123,7 +130,10 @@ class Teams
 
   def head_to_head(team)
     opponents = fetch_opponents(team)
-
+    #get games played by team, see above for refactor
+    #get a subset - each loop of opponents? with every game played by that team
+    #since we already grouped by games olayed by the team above, we can use the win/loss to
+    #extrapolte a win percentage.
     require 'pry'; binding.pry
   end
 
