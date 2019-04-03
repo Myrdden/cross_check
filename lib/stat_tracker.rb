@@ -7,8 +7,7 @@ class StatTracker
   def initialize(locations)
     if locations.values.all? {|x| File.extname(x) == ".csv"}
       @teams = Teams.new(ParseCSV.teams_setup(locations[:teams]))
-      @games = ParseCSV.games_setup(@teams, locations[:games], locations[:stats])
-      require 'pry'; binding.pry
+      @games = Games.new(ParseCSV.games_setup(@teams, locations[:games], locations[:stats]))
     end
   end
 
