@@ -25,5 +25,6 @@ class StatTracker
   def most_goals_scored(team); return @teams.most_goals_scored(team) end
   def fewest_goals_scored(team); return @teams.fewest_goals_scored(team) end
   def favorite_opponent(team); return @teams.favorite_opponent(team) end
+  def head_to_head(team); return @teams.head_to_head(team) end
 
 end

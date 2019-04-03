@@ -1,0 +1,52 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Games	lib/games.rb	/^class Games$/;"	c
+ParseCSV	lib/parse.rb	/^class ParseCSV$/;"	c
+Recursive	lib/decor/rec.rb	/^module Recursive$/;"	m
+StatTracker	lib/stat_tracker.rb	/^class StatTracker$/;"	c
+Stats	lib/stats.rb	/^class Stats$/;"	c
+Teams	lib/teams.rb	/^class Teams$/;"	c
+average_goals_by_season	lib/games.rb	/^  def average_goals_by_season$/;"	f
+average_goals_by_season	lib/stat_tracker.rb	/^  def average_goals_by_season; return @games.average_goals_by_season end$/;"	f	class:StatTracker
+average_goals_per_game	lib/games.rb	/^  def average_goals_per_game$/;"	f
+average_goals_per_game	lib/stat_tracker.rb	/^  def average_goals_per_game; return @games.average_goals_per_game end$/;"	f	class:StatTracker
+average_win_percentage	lib/stat_tracker.rb	/^  def average_win_percentage(team); return @teams.average_win_percentage(team) end$/;"	f	class:StatTracker
+average_win_percentage	lib/teams.rb	/^  def average_win_percentage(team)$/;"	f	class:Teams.best_season.worst_season
+best_season	lib/stat_tracker.rb	/^  def best_season(team); return @teams.best_season(team) end$/;"	f	class:StatTracker
+best_season	lib/teams.rb	/^  def best_season(team)$/;"	f	class:Teams
+biggest_blowout	lib/games.rb	/^  def biggest_blowout$/;"	f
+biggest_blowout	lib/stat_tracker.rb	/^  def biggest_blowout; return @games.biggest_blowout end$/;"	f	class:StatTracker
+biggest_team_blowout	lib/teams.rb	/^  def biggest_team_blowout$/;"	f	class:Teams.best_season.worst_season
+count_of_games_by_season	lib/games.rb	/^  def count_of_games_by_season$/;"	f
+count_of_games_by_season	lib/stat_tracker.rb	/^  def count_of_games_by_season; return @games.count_of_games_by_season end$/;"	f	class:StatTracker
+favourite_opponent	lib/teams.rb	/^  def favourite_opponent(team)$/;"	f	class:Teams.best_season.worst_season
+fewest_goals_scored	lib/stat_tracker.rb	/^  def fewest_goals_scored(team); return @teams.fewest_goals_scored(team) end$/;"	f	class:StatTracker
+fewest_goals_scored	lib/teams.rb	/^  def fewest_goals_scored(team)$/;"	f	class:Teams.best_season.worst_season
+head_to_head	lib/teams.rb	/^  def head_to_head(team)$/;"	f	class:Teams.best_season.worst_season
+highest_total_score	lib/games.rb	/^  def highest_total_score$/;"	f
+highest_total_score	lib/stat_tracker.rb	/^  def highest_total_score; return @games.highest_total_score end$/;"	f	class:StatTracker
+initialize	lib/games.rb	/^  def initialize(games)$/;"	f	class:Games
+initialize	lib/stat_tracker.rb	/^  def initialize(locations)$/;"	f	class:StatTracker
+initialize	lib/stats.rb	/^  def initialize(stats)$/;"	f	class:Stats
+initialize	lib/teams.rb	/^  def initialize(teams, games, stats)$/;"	f	class:Teams
+lowest_total_score	lib/games.rb	/^  def lowest_total_score$/;"	f
+lowest_total_score	lib/stat_tracker.rb	/^  def lowest_total_score; return @games.lowest_total_score end$/;"	f	class:StatTracker
+most_goals_scored	lib/stat_tracker.rb	/^  def most_goals_scored(team); return @teams.most_goals_scored(team) end$/;"	f	class:StatTracker
+most_goals_scored	lib/teams.rb	/^  def most_goals_scored(team)$/;"	f	class:Teams.best_season.worst_season
+parse	lib/parse.rb	/^  def parse(filepath) #:: Filepath -> [Hash]$/;"	f	class:ParseCSV
+percentage_home_wins	lib/games.rb	/^  def percentage_home_wins$/;"	f
+percentage_home_wins	lib/stat_tracker.rb	/^  def percentage_home_wins; return @games.percentage_home_wins end$/;"	f	class:StatTracker
+percentage_visitor_wins	lib/games.rb	/^  def percentage_visitor_wins$/;"	f
+percentage_visitor_wins	lib/stat_tracker.rb	/^  def percentage_visitor_wins; return @games.percentage_visitor_wins end$/;"	f	class:StatTracker
+rec	lib/decor/rec.rb	/^  def rec(name)$/;"	f	class:Recursive
+rival	lib/teams.rb	/^  def rival(team)$/;"	f	class:Teams.best_season.worst_season
+season_inator	lib/teams.rb	/^  def season_inator(gameID)$/;"	f	class:Teams
+seasonal_summary	lib/teams.rb	/^  def seasonal_summary(team)$/;"	f	class:Teams.best_season.worst_season
+team_info	lib/teams.rb	/^  def team_info(team)$/;"	f	class:Teams
+worst_loss	lib/teams.rb	/^  def worst_loss(team)$/;"	f	class:Teams.best_season.worst_season
+worst_season	lib/stat_tracker.rb	/^  def worst_season(team); return @teams.worst_season(team) end$/;"	f	class:StatTracker
+worst_season	lib/teams.rb	/^  def worst_season(team)$/;"	f	class:Teams.best_season

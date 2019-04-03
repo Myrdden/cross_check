@@ -98,13 +98,11 @@ class Teams
     end
     if !@team_stats[:fav_opponent].has_key?(team_ID)
       team_games = @stats.group_by {|x| x[:game_id]}
-      team_games = team_games.find_all {|x| x[1].any? {|x| x[:team_id] == team}}
-      opponents = team_games.flat_map {|x| x[1].select {|x| x[:team_id] != team}}
-      p opponents.first
-      opponents = opponents.group_by {|x| x[:team_id]}
-      favourite = opponents.max_by {|x| x[1].count}[0]
+      team_games2 = team_games.find_all {|x| x[1].any? {|x| x[:team_id] == team}}
+      opponents = team_games2.flat_map {|x| x[1].select {|x| x[:team_id] != team}}
+      opponents2 = opponents.group_by {|x| x[:team_id]}.to_a
+      favourite = opponents2.max_by {|x| x[1].count}[0]
       @team_stats[:fav_opponent][team_ID] = @teams.find {|x| x[:team_id] == favourite}[:teamName]
-      # require 'pry'; binding.pry
     end
     p @team_stats[:fav_opponent][team_ID]
     return @team_stats[:fav_opponent][team_ID]
@@ -119,7 +117,14 @@ class Teams
   def worst_loss(team)
   end
 
+  def fetch_opponents(team)
+    return @teams.reject {|x| x[:team_id] == team}
+  end
+
   def head_to_head(team)
+    opponents = fetch_opponents(team)
+
+    require 'pry'; binding.pry
   end
 
   def seasonal_summary(team)
