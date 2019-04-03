@@ -15,10 +15,6 @@ class Team
     return @games.group_by {|game| game.against}
   end
 
-  def self.fetch_opponents(games)
-    return games.group_by {|game| game.against}
-  end
-
   def win_percentages
     winPercs = {}
     fetch_opponents.each do |k,v|
@@ -36,11 +32,7 @@ class Team
   end
 
   def self.average_win_percent(games)
-    winPercs = []
-    self.fetch_opponents(games).each do |k,v|
-      winPercs << (v.count {|x| x.won?} / v.count.to_f).round(2)
-    end
-    return (winPercs.sum / winPercs.length).round(2)
+    return (games.count {|x| x.won?} / games.count.to_f).round(2)
   end
 
   def self.average_goals_for(games)
@@ -48,7 +40,7 @@ class Team
     games.each do |game|
       goals << game[:goals].to_i
     end
-    return (goals.sum / goals.length).round(2)
+    return (goals.sum / goals.length.to_f).round(2)
   end
 
   def self.average_goals_against(games)
@@ -56,7 +48,7 @@ class Team
     games.each do |game|
       goals << game.against_goals
     end
-    return (goals.sum / goals.length).round(2)
+    return (goals.sum / goals.length.to_f).round(2)
   end
 
   def self.total_goals_for(games)

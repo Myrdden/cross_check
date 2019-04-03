@@ -89,7 +89,6 @@ class Teams
     seasons = @teams[team].games.group_by {|x| x.season}
     seasons.map do |season, games|
       temp = games.group_by {|x| x.game_type}
-      p temp.keys
       output[season] = {}
       if temp["R"]
         output[season][:regular_season] = season_stats(temp["R"])
@@ -102,7 +101,6 @@ class Teams
         output[season][:postseason] = null_stats
       end
     end
-    p output
     return output
   end
 
