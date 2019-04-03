@@ -38,7 +38,7 @@ class Team
   def self.average_goals_for(games)
     goals = []
     games.each do |game|
-      goals << game[:goals].to_i
+      goals << game.goals
     end
     return (goals.sum / goals.length.to_f).round(2)
   end
@@ -52,7 +52,7 @@ class Team
   end
 
   def self.total_goals_for(games)
-    return games.sum {|x| x[:goals].to_i}
+    return games.sum {|x| x.goals}
   end
 
   def self.total_goals_against(games)
