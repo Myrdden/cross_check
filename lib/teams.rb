@@ -66,10 +66,13 @@ class Teams
     return @teams[team].games.min_by {|stat| stat[:goals].to_i}[:goals].to_i
   end
 
+  memo def fetch_opponents(team)
+    return @teams[team].games.group_by {|game| game.against}
+  end
+
   memo def win_percentages(team)
-    opponents = @teams[team].games.group_by {|game| game.against}
     winPercs = {}
-    opponents.each do |k,v|
+    fetch_opponents(team).each do |k,v|
       winPercs[k] = (v.count {|x| x.won?} / v.count.to_f).round(2)
     end
     return winPercs
@@ -81,23 +84,24 @@ class Teams
   end
 
 
-  def rival(team)
+  memo def rival(team)
     temp = win_percentages(team).min_by {|_,v| v}
     return @teams[temp[0]][:team_name]
   end
 
-  def biggest_team_blowout
-    #use normal biggest blowout algo with an argument
-    #gather subest of all games played by team.
-    #refactor code to get all games played by team reused several times.
+  memo def win_ratios(team)
+    ratios = []
+    @teams[team].games.each do |game|
+      ratios << game[:goals].to_i - game.against_goals
+    end
+    return ratios
   end
 
-  def worst_loss(team)
-    #inverse of above
-  end
+  def biggest_team_blowout(team); return win_ratios(team).max.abs end
+
+  def worst_loss(team); return win_ratios(team).min.abs end
 
   def head_to_head(team)
-    opponents = fetch_opponents(team)
     #get games played by team, see above for refactor
     #get a subset - each loop of opponents? with every game played by that team
     #since we already grouped by games olayed by the team above, we can use the win/loss to

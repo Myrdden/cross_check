@@ -27,8 +27,8 @@ class ParseCSV
     lines.each do |line|
       line = self.split_words(line)
       gamesOut << self.hashify(keys, line)
-      teams[line[4]].games << Game.new(line[0], line[5], self.getStats(line[0], line[4]))
-      teams[line[5]].games << Game.new(line[0], line[4], self.getStats(line[0], line[5], true))
+      teams[line[4]].games << Game.new(line[0], line[5], line[7], self.getStats(line[0], line[4]))
+      teams[line[5]].games << Game.new(line[0], line[4], line[6], self.getStats(line[0], line[5], true))
     end
     return gamesOut
   end
