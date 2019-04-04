@@ -2,11 +2,12 @@ require './lib/decor/rec'
 
 class Team
   attr_reader :id, :stats
-  attr_accessor :games
+  attr_accessor :games, :games_by_season
   def initialize(id, line)
     @id = id
     @stats = line
     @games = []
+    @games_by_season = Hash.new({})
   end
 
   def [](stat); return @stats[stat] end

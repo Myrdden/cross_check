@@ -31,8 +31,12 @@ class ParseCSV
         self.getStats(line[0], line[4])]
       gameDataB = [line[0], line[4], line[6], line[7], line[1], line[2], \
         self.getStats(line[0], line[5], true)]
-      teams[line[4]].games << Game.new(gameDataA)
-      teams[line[5]].games << Game.new(gameDataB)
+      gameA = Game.new(gameDataA)
+      gameB = Game.new(gameDataB)
+      teams[line[4]].games << gameA
+      teams[line[4]].games_by_season[gameA.season][gameA.game_type] = gameA
+      teams[line[5]].games << gameB
+      teams[line[5]].games_by_season[gameB.season][gameB.game_type] = gameB
     end
     return gamesOut
   end
