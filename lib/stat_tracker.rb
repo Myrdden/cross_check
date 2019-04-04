@@ -2,12 +2,14 @@ require './lib/parse'
 require './lib/games'
 require './lib/teams'
 require './lib/stats'
+require './lib/seasons'
 
 class StatTracker
   def initialize(locations)
     if locations.values.all? {|x| File.extname(x) == ".csv"}
       @teams = Teams.new(ParseCSV.teams_setup(locations[:teams]))
       @games = Games.new(ParseCSV.games_setup(@teams, locations[:games], locations[:stats]))
+      @seasons = Seasons.new(@teams)
     end
   end
 
@@ -31,5 +33,5 @@ class StatTracker
   def worst_loss(team); return @teams.worst_loss(team) end
   def head_to_head(team); return @teams.head_to_head(team) end
   def seasonal_summary(team); return @teams.seasonal_summary(team) end
-
+  def biggest_bust(season); return @seasons.biggest_bust(season) end
 end
