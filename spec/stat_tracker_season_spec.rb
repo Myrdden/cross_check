@@ -26,6 +26,12 @@ describe StatTracker do
   end
 
   it "can find the biggest bust" do
-    expect(@stat_tracker.biggest_bust("6")).to eq(15)
+    expect(@stat_tracker.biggest_bust("20132014")).to eq("Lightning")
+    expect(@stat_tracker.biggest_bust("20142015")).to eq("Jets")
+  end
+
+  it "can find the biggest surprise" do
+    expect(@stat_tracker.biggest_surprise("20132014")).to eq("Kings")
+    expect(@stat_tracker.biggest_surprise("20142015")).to eq("Blackhawks")
   end
 end

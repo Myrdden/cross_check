@@ -7,7 +7,7 @@ class Team
     @id = id
     @stats = line
     @games = []
-    @games_by_season = Hash.new({})
+    @games_by_season = Hash.new {|h, k| h[k] = {}}
   end
 
   def [](stat); return @stats[stat] end

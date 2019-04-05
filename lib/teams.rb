@@ -1,3 +1,4 @@
+require './lib/team'
 require './lib/games'
 require './lib/decor/hash_patch.rb'
 

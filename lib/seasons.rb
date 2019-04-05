@@ -1,4 +1,4 @@
-require './lib/games'
+require './lib/teams'
 
 module MemoSeasons
   def memo(name)
@@ -11,7 +11,7 @@ module MemoSeasons
         @@season_stats[name] = {}
       end
       if !@@season_stats[name].has_key?(seasonSym)
-        @@season_stats[name][seasonSym] = fn.bind(self).call(seasonSym)
+        @@season_stats[name][seasonSym] = fn.bind(self).call(season)
       end
       return @@season_stats[name][seasonSym]
     end
@@ -24,25 +24,29 @@ class Seasons
     @teams = teams
   end
 
-  memo def biggest_bust(season)
-    seasonSym = season.to_sym
+  def get_average_stats(season, criteria)
     stats = {}
-    @teams.each do |team|
-      reg = Team.average_win_percent(team.games_by_season[seasonSym]["R"])
-      post = Team.average_win_percent(team.games_by_season[seasonSym]["P"])
-      stats[team[3]] = reg - post
+    @teams.teams.each do |_, team|
+      if team.games_by_season[season]["R"]
+        reg = Team.average_win_percent(team.games_by_season[season]["R"])
+      else; reg = 0.0 end
+      if team.games_by_season[season]["P"]
+        post = Team.average_win_percent(team.games_by_season[season]["P"])
+      else post = 0.0 end
+      stats[team[criteria]] = (reg - post).round(2)
     end
-    return stats.max.key
+    return stats
+  end
+
+  memo def biggest_bust(season)
+    return get_average_stats(season, :team_name).max_by {|k,v| v}[0]
   end
 
   memo def biggest_surprise(season)
-    seasonSym = season.to_sym
-    stats = {}
-    @teams.each do |team|
-      reg = Team.average_win_percent(team.games[seasonSym]["R"])
-      post = Team.average_win_percent(team.games[seasonSym]["P"])
-      stats[team[3]] = reg - post
-    end
-    return stats.max.key
+    return get_average_stats(season, :team_name).min_by {|k,v| v}[0]
+  end
+
+  memo def asdf()
+    retru
   end
 end

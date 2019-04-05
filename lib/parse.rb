@@ -34,10 +34,14 @@ class ParseCSV
       gameA = Game.new(gameDataA)
       gameB = Game.new(gameDataB)
       teams[line[4]].games << gameA
-      teams[line[4]].games_by_season[gameA.season][gameA.game_type] = gameA
+      teams[line[4]].games_by_season[gameA.season][gameA.game_type] ||= []
+      teams[line[4]].games_by_season[gameA.season][gameA.game_type] << gameA
       teams[line[5]].games << gameB
-      teams[line[5]].games_by_season[gameB.season][gameB.game_type] = gameB
+      teams[line[5]].games_by_season[gameB.season][gameB.game_type] ||= []
+      teams[line[5]].games_by_season[gameB.season][gameB.game_type] << gameB
+
     end
+    #require 'pry'; binding.pry
     return gamesOut
   end
 
