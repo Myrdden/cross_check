@@ -27,13 +27,15 @@ class Seasons
   memo def get_average_stats(season)
     stats = {}
     @teams.teams.each do |_, team|
-      regs = team.games_by_season[season].find_all {|x| x.game_type == "R"}
-      reg = Team.average_win_percent(regs) if !regs.empty?
-      reg ||= 0.0
-      posts = team.games_by_season[season].find_all {|x| x.game_type == "P"}
-      post = Team.average_win_percent(posts) if !posts.empty?
-      post ||= 0.0
-      stats[team[:team_name]] = (reg - post).round(2)
+      if team.games_by_season[season]
+        regs = team.games_by_season[season].find_all {|x| x.game_type == "R"}
+        reg = Team.average_win_percent(regs) if !regs.empty?
+        reg ||= 0.0
+        posts = team.games_by_season[season].find_all {|x| x.game_type == "P"}
+        post = Team.average_win_percent(posts) if !posts.empty?
+        post ||= 0.0
+        stats[team[:team_name]] = (reg - post).round(2)
+      end
     end
     return stats
   end
