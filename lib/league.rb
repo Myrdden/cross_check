@@ -18,63 +18,101 @@ class League
     @teams = teams
   end
 
-  ##Need memoizer
-
   def count_of_teams
     return @teams.teams.count
   end
 
   def best_offense # highest goals per game
-    game_average = {}
+    game_arg = {}
     @teams.teams.each do |_, team|
-      game_average[team[:team_name]] = (team.games.sum{|game| game.goals} / team.games.count.to_f)
+      game_arg[team[:team_name]] = (team.games.sum{|game| game.goals} \
+      / team.games.count.to_f)
     end
-    return game_average.max_by{|k,v| v}[0]
+    return game_arg.max_by{|k,v| v}[0]
   end
 
   def worst_offense
-    game_average = {}
+    game_arg = {}
     @teams.teams.each do |_, team|
-      game_average[team[:team_name]] = (team.games.sum{|game| game.goals} / team.games.count.to_f)
+      game_arg[team[:team_name]] = (team.games.sum{|game| game.goals} \
+      / team.games.count.to_f)
     end
-    return game_average.min_by{|k,v| v}[0]
+    return game_arg.min_by{|k,v| v}[0]
   end
 
-  def best_defense # game or stats
-    #get all teams in data
-    #find all games played by team
-    #count all goals allowed by team / all games played.
-    #find highest average
-    #return string of team_name
-  end # returns team name as a string
+  def best_defense
+    game_arg = {}
+    @teams.teams.each do |_, team|
+      game_arg[team[:team_name]] = (team.games.sum{|game| game.against_goals} \
+      / team.games.count.to_f)
+    end
+    return game_arg.min_by{|k,v| v}[0]
+  end
 
-  def worst_defense # game stats
-    #inverse of above
-  end # returns team name as a string
+  def worst_defense
+    game_arg = {}
+    @teams.teams.each do |_, team|
+      game_arg[team[:team_name]] = (team.games.sum{|game| game.against_goals} \
+      / team.games.count.to_f)
+    end
+    return game_arg.max_by{|k,v| v}[0]
+  end
 
-  def highest_scoring_visitor #game stats
-    #get all teams in data
-    #find all games played by team && while team away flag from game
-    #count all goals scored by subset above / total games played by subset above
-    #find highest average
-    #return string of team_name
-  end # returns team name as a string
+  def highest_scoring_visitor
+    game_arg = {}
+    @teams.teams.each do |_, team|
+      game_arg[team[:team_name]] = team.games.sum do |game|
+        if !game.home?
+          (game.goals / team.games.count.to_f)
+        else
+          0.0
+        end
+      end
+    end
+    return game_arg.max_by{|k,v| v}[0]
+  end
 
-  def lowest_scoring_visitor #game stats
-    #inverse of above
-  end # returns team name as a string
+  def lowest_scoring_visitor
+    game_arg = {}
+    @teams.teams.each do |_, team|
+      game_arg[team[:team_name]] = team.games.sum do |game|
+        if !game.home?
+          (game.goals / team.games.count.to_f)
+        else
+          0.0
+        end
+      end
+    end
+    return game_arg.min_by{|k,v| v}[0]
+  end
 
-  def highest_scoring_home_team #game stats
-    #get all teams in data
-    #find all games played by team && while team home flag from game
-    #count all goals scored by subset above / total games played by subset above
-    #find highest average
-    #return string of team_name
-  end # returns team name as a string
+  def highest_scoring_home_team
+    game_arg = {}
+    @teams.teams.each do |_, team|
+      game_arg[team[:team_name]] = team.games.sum do |game|
+        if game.home?
+          (game.goals / team.games.count.to_f)
+        else
+          0.0
+        end
+      end
+    end
+    return game_arg.max_by{|k,v| v}[0]
+  end
 
-  def lowest_scoring_home_team # stats
-    #inverse of above
-  end # returns team name as a string
+  def lowest_scoring_home_team
+    game_arg = {}
+    @teams.teams.each do |_, team|
+      game_arg[team[:team_name]] = team.games.sum do |game|
+        if game.home?
+          (game.goals / team.games.count.to_f)
+        else
+          0.0
+        end
+      end
+    end
+    return game_arg.min_by{|k,v| v}[0]
+  end
 
   def winningest_team # game or stats
     #get all teams in data
