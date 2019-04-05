@@ -1,10 +1,6 @@
 require './lib/team'
 require './lib/games'
-<<<<<<< HEAD
 require './lib/decor/hash_patch'
-=======
-require './lib/decor/hash_patch.rb'
->>>>>>> d99d20038c6779d1cd827565706d855426d61875
 
 module MemoTeam
   def memo(name)
@@ -42,7 +38,6 @@ class Teams
   end
 
   memo def best_season(team)
-  require 'pry'; binding.pry
     total_games = []
     @teams[team].games.each do |game|
       total_games << season_inator(game.id).to_i if game.won?

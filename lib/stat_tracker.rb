@@ -3,6 +3,7 @@ require './lib/games'
 require './lib/teams'
 require './lib/stats'
 require './lib/seasons'
+require './lib/league'
 
 class StatTracker
   def initialize(locations)
@@ -44,4 +45,16 @@ class StatTracker
   def fewest_hits(season); return @seasons.fewest_hits(season) end
   def power_play_goal_percentage(season)
     return @seasons.power_play_goal_percentage(season) end
+  def count_of_teams; return @league.count_of_teams end
+  def best_offense; return @league.best_offense end
+  def worst_offense; return @league.worst_offense end
+  def best_defense; return @league.best_defense end
+  def worst_defense; return @league.worst_defense end
+  def lowest_scoring_visitor; return @league.lowest_scoring_visitor end
+  def highest_scoring_visitor; return @league.highest_scoring_visitor end
+  def lowest_scoring_home_team; return @league.lowest_scoring_home_team end
+  def highest_scoring_home_team; return @league.highest_scoring_home_team end
+  def winningest_team; return @league.winningest_team end
+  def best_fans; return @league.best_fans end
+  def worst_fans; return @league.worst_fans end
 end

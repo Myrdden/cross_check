@@ -5,9 +5,9 @@ class League
   end
   ## need team name and stats
 
-  def count_of_teams # game or stats
-    #get count of total teams in data. game or game stats can be read in?
-  end #returns total as an int
+  def count_of_teams
+    return @teams.count
+  end
 
   def best_offense # highest goals per game
     #get all teams in data
