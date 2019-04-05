@@ -3,10 +3,11 @@ class League
   def initialize(teams)
     @teams = teams
   end
-  ## need team name and stats
+
+  ##Need memoizer
 
   def count_of_teams
-    return @teams.count
+    return @teams.teams.count
   end
 
   def best_offense # highest goals per game
@@ -29,7 +30,7 @@ class League
     #return string of team_name
   end # returns team name as a string
 
-  def worst_defence # game stats
+  def worst_defense # game stats
     #inverse of above
   end # returns team name as a string
 

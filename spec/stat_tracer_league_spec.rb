@@ -18,7 +18,7 @@ describe StatTracker do
       stats: game_teams_path
     }
 
-    @stat_tracker = StatTracker.from_csv(locations)
+    @stat_tracker = StatTracker.new(locations)
   end
 
   it "exists" do
