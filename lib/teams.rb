@@ -1,5 +1,10 @@
+require './lib/team'
 require './lib/games'
+<<<<<<< HEAD
 require './lib/decor/hash_patch'
+=======
+require './lib/decor/hash_patch.rb'
+>>>>>>> d99d20038c6779d1cd827565706d855426d61875
 
 module MemoTeam
   def memo(name)
@@ -21,6 +26,7 @@ end
 
 class Teams
   extend MemoTeam
+  attr_reader :teams
   def initialize(teams)
     @teams = teams
   end
