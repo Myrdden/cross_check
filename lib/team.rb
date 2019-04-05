@@ -7,7 +7,7 @@ class Team
     @id = id
     @stats = line
     @games = []
-    @games_by_season = Hash.new {|h, k| h[k] = {}}
+    @games_by_season = {}
   end
 
   def [](stat); return @stats[stat] end
@@ -49,6 +49,18 @@ class Team
     return stats
   end
 
+  def self.shots_to_goals_ratio(games)
+    ratios = []
+    games.each do |game|
+      if game[:goals].to_i != 0
+        ratios << (game[:shots].to_f / game[:goals].to_f).round(2)
+      else
+        ratios << game[:shots].to_f
+      end
+    end
+    return (ratios.sum / ratios.count).round(2)
+  end
+
   def self.average_goals_for(games)
     goals = []
     games.each do |game|
@@ -71,5 +83,9 @@ class Team
 
   def self.total_goals_against(games)
     return games.sum {|x| x.against_goals}
+  end
+
+  def self.total_hits(games)
+    return games.sum {|x| x[:hits].to_i}
   end
 end
