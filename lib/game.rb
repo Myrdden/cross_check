@@ -1,7 +1,7 @@
 
 class Game
   attr_reader :id, :against, :against_goals,
-    :season, :game_type, :goals
+    :season, :game_type, :goals, :stats
   def initialize(inp)
     @id = inp[0]
     @against = inp[1]
@@ -10,6 +10,7 @@ class Game
     @season = inp[4]
     @game_type = inp[5]
     @stats = inp[6]
+    @stats[:HoA] = @stats[:_ho_a]
     @home = @stats[:HoA] == "home"
     @won = @stats[:won] == "TRUE"
   end
