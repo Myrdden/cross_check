@@ -2,12 +2,14 @@ require './lib/parse'
 require './lib/games'
 require './lib/teams'
 require './lib/stats'
+require './lib/seasons'
 
 class StatTracker
   def initialize(locations)
     if locations.values.all? {|x| File.extname(x) == ".csv"}
       @teams = Teams.new(ParseCSV.teams_setup(locations[:teams]))
       @games = Games.new(ParseCSV.games_setup(@teams, locations[:games], locations[:stats]))
+      @seasons = Seasons.new(@teams)
     end
   end
 
@@ -31,5 +33,14 @@ class StatTracker
   def worst_loss(team); return @teams.worst_loss(team) end
   def head_to_head(team); return @teams.head_to_head(team) end
   def seasonal_summary(team); return @teams.seasonal_summary(team) end
-
+  def biggest_bust(season); return @seasons.biggest_bust(season) end
+  def biggest_surprise(season); return @seasons.biggest_surprise(season) end
+  def winningest_coach(season); return @seasons.winningest_coach(season) end
+  def worst_coach(season); return @seasons.worst_coach(season) end
+  def most_accurate_team(season); return @seasons.most_accurate_team(season) end
+  def least_accurate_team(season); return @seasons.least_accurate_team(season) end
+  def most_hits(season); return @seasons.most_hits(season) end
+  def fewest_hits(season); return @seasons.fewest_hits(season) end
+  def power_play_goal_percentage(season)
+    return @seasons.power_play_goal_percentage(season) end
 end
