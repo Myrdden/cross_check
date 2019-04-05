@@ -16,11 +16,11 @@ class Team
   end
 
   def win_percentages
-    winPercs = {}
+    win_percs = {}
     fetch_opponents.each do |k,v|
-      winPercs[k] = (v.count {|x| x.won?} / v.count.to_f).round(2)
+      win_prcs[k] = (v.count {|x| x.won?} / v.count.to_f).round(2)
     end
-    return winPercs
+    return win_percs
   end
 
   def win_ratios

@@ -115,12 +115,9 @@ class Teams
   end
 
   def null_stats
-    output = {}
-    output[:win_percentage] = 0.0
-    output[:average_goals_scored] = 0.0
-    output[:average_goals_against] = 0.0
-    output[:total_goals_scored] = 0
-    output[:total_goals_against] = 0
-    return output
+    output = [[:win_percentage, 0.0],[:average_goals_scored, 0.0],
+    [:average_goals_against, 0.0], [:total_goals_scored, 0],
+    [:total_goals_against, 0]]
+    return output.to_h
   end
 end
