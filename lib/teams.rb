@@ -1,4 +1,5 @@
 require './lib/games'
+require './lib/decor/hash_patch'
 
 module MemoTeam
   def memo(name)
@@ -35,6 +36,7 @@ class Teams
   end
 
   memo def best_season(team)
+  require 'pry'; binding.pry
     total_games = []
     @teams[team].games.each do |game|
       total_games << season_inator(game.id).to_i if game.won?
@@ -115,12 +117,9 @@ class Teams
   end
 
   def null_stats
-    output = {}
-    output[:win_percentage] = 0.0
-    output[:average_goals_scored] = 0.0
-    output[:average_goals_against] = 0.0
-    output[:total_goals_scored] = 0
-    output[:total_goals_against] = 0
-    return output
+    output = [[:win_percentage, 0.0],[:average_goals_scored, 0.0],
+    [:average_goals_against, 0.0], [:total_goals_scored, 0],
+    [:total_goals_against, 0]]
+    return output.to_h
   end
 end
