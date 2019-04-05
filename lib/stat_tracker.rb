@@ -35,4 +35,6 @@ class StatTracker
   def seasonal_summary(team); return @teams.seasonal_summary(team) end
   def biggest_bust(season); return @seasons.biggest_bust(season) end
   def biggest_surprise(season); return @seasons.biggest_surprise(season) end
+  def winningest_coach(season); return @seasons.winningest_coach(season) end
+  def worst_coach(season); return @seasons.worst_coach(season) end
 end

@@ -24,7 +24,7 @@ class Seasons
     @teams = teams
   end
 
-  def get_average_stats(season, criteria)
+  memo def get_average_stats(season)
     stats = {}
     @teams.teams.each do |_, team|
       if team.games_by_season[season]["R"]
@@ -33,20 +33,39 @@ class Seasons
       if team.games_by_season[season]["P"]
         post = Team.average_win_percent(team.games_by_season[season]["P"])
       else post = 0.0 end
-      stats[team[criteria]] = (reg - post).round(2)
+      stats[team[:team_name]] = (reg - post).round(2)
+    end
+    return stats
+  end
+
+  memo def get_average_stats_by_coach(season)
+    stats = {}
+    @teams.teams.each do |_, team|
+      if team.games_by_season[season]["R"]
+        reg = Team.average_win_percent_by_coach(team.games_by_season[season]["R"])
+      else; reg = {} end
+      if team.games_by_season[season]["P"]
+        post = Team.average_win_percent_by_coach(team.games_by_season[season]["P"])
+      else post = {} end
+      reg.merge!(post) {|_,o,n| ((o + n) / 2)}
+      stats.merge!(reg)
     end
     return stats
   end
 
   memo def biggest_bust(season)
-    return get_average_stats(season, :team_name).max_by {|k,v| v}[0]
+    return get_average_stats(season).max_by {|k,v| v}[0]
   end
 
   memo def biggest_surprise(season)
-    return get_average_stats(season, :team_name).min_by {|k,v| v}[0]
+    return get_average_stats(season).min_by {|k,v| v}[0]
   end
 
-  memo def asdf()
-    retru
+  memo def winningest_coach(season)
+    return get_average_stats_by_coach(season).max_by {|k,v| v}[0]
+  end
+
+  memo def worst_coach(season)
+    return get_average_stats_by_coach(season).min_by {|k,v| v}[0]
   end
 end

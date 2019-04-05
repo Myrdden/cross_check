@@ -27,13 +27,26 @@ class Team
   def win_ratios
     ratios = []
     @games.each do |game|
-      ratios << game[:goals].to_i - game.against_goals
+      ratios << game.goals - game.against_goals
     end
     return ratios
   end
 
   def self.average_win_percent(games)
     return (games.count {|x| x.won?} / games.count.to_f).round(2)
+  end
+
+  def self.average_win_percent_by_coach(games)
+    temp = {}
+    games.each do |game|
+      temp[game[:head_coach]] ||= []
+      temp[game[:head_coach]] << game
+    end
+    stats = {}
+    temp.each do |k,v|
+      stats[k] = (v.count {|x| x.won?} / v.count.to_f)#.round(2)
+    end
+    return stats
   end
 
   def self.average_goals_for(games)
