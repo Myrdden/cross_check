@@ -88,11 +88,11 @@ class Seasons
   end
 
   memo def most_accurate_team(season)
-    return get_shots_goals_ratio(season).min_by {|k,v| v}[0]
+    return get_shots_goals_ratio(season).max_by {|k,v| v}[0]
   end
 
   memo def least_accurate_team(season)
-    return get_shots_goals_ratio(season).max_by {|k,v| v}[0]
+    return get_shots_goals_ratio(season).min_by {|k,v| v}[0]
   end
 
   memo def most_hits(season)

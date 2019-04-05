@@ -53,12 +53,12 @@ class Team
     ratios = []
     games.each do |game|
       if game[:goals].to_i != 0
-        ratios << (game[:shots].to_f / game[:goals].to_f).round(2)
+        ratios << (game[:goals].to_f / game[:shots].to_f)#.round(2)
       else
-        ratios << game[:shots].to_f
+        ratios << game[:goals].to_f
       end
     end
-    return (ratios.sum / ratios.count).round(2)
+    return (ratios.sum / ratios.count)#.round(2)
   end
 
   def self.average_goals_for(games)
@@ -91,6 +91,6 @@ class Team
 
   def self.powerplays(games)
     return (games.sum {|x| x[:power_play_goals].to_f} \
-      / games.sum {|x| x[:goals].to_f})
+      / games.sum {|x| x[:goals].to_f}).floor(2)
   end
 end
