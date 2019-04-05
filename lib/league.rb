@@ -114,13 +114,14 @@ class League
     return game_arg.min_by{|k,v| v}[0]
   end
 
-  def winningest_team # game or stats
-    #get all teams in data
-    #find all games played by team
-    #find count of all games won / total games played
-    #find highest
-    #return string of team_name
-  end # returns team name as a string
+  def winningest_team
+    game_arg = {}
+    @teams.teams.each do |_, team|
+      game_arg[team[:team_name]] = (team.games.count{|game| game.won?} \
+      / team.games.count.to_f)
+    end
+    return game_arg.max_by{|k,v| v}[0]
+  end
 
   def best_fans # stats
     #get all teams in data
