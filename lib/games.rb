@@ -52,7 +52,7 @@ class Games
   def percentage_home_wins
     if !@game_stats.has_key?(:home_wins)
       home_wins = @games.count {|x| x[:home_goals] > x[:away_goals]}.to_f
-      @game_stats[:home_wins] = ((home_wins / @games.count) * 100.0).round(2)
+      @game_stats[:home_wins] = (home_wins / @games.count).round(2)
     end
     return @game_stats[:home_wins]
   end
@@ -60,7 +60,7 @@ class Games
   def percentage_visitor_wins
     if !@game_stats.has_key?(:away_wins)
       away_wins = @games.count {|x| x[:away_goals] > x[:home_goals]}.to_f
-      @game_stats[:away_wins] = ((away_wins / @games.count) * 100.0).round(2)
+      @game_stats[:away_wins] = (away_wins / @games.count).round(2)
     end
     return @game_stats[:away_wins]
   end

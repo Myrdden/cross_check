@@ -3,14 +3,14 @@ require "./lib/stat_tracker"
 
 describe StatTracker do
 
-  before do
-    # game_path = '../cross_check_spec_harness/data/game.csv'
-    # team_path = '../cross_check_spec_harness/data/team_info.csv'
-    # game_teams_path = '../cross_check_spec_harness/data/game_teams_stats.csv'
+  before(:all) do
+    game_path = '../cross_check_spec_harness/data/game.csv'
+    team_path = '../cross_check_spec_harness/data/team_info.csv'
+    game_teams_path = '../cross_check_spec_harness/data/game_teams_stats.csv'
 
-    game_path = './data/game.csv'
-    team_path = './data/team_info.csv'
-    game_teams_path = './data/game_teams_stats.csv'
+    # game_path = './data/game.csv'
+    # team_path = './data/team_info.csv'
+    # game_teams_path = './data/game_teams_stats.csv'
 
     locations = {
       games: game_path,
@@ -38,11 +38,11 @@ describe StatTracker do
   end
 
   it "can find the percentage of home wins" do
-    expect(@stat_tracker.percentage_home_wins).to eq(54.95)
+    expect(@stat_tracker.percentage_home_wins).to eq(0.55)
   end
 
   it "can find the percentage of visitor wins" do
-    expect(@stat_tracker.percentage_visitor_wins).to eq(45.05) # check with instructor
+    expect(@stat_tracker.percentage_visitor_wins).to eq(0.45)
   end
 
   it "can find the count of games by season" do

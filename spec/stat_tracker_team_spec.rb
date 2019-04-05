@@ -3,7 +3,7 @@ require "./lib/stat_tracker"
 
 describe StatTracker do
 
-  before do
+  before(:all) do
     game_path = '../cross_check_spec_harness/data/game.csv'
     team_path = '../cross_check_spec_harness/data/team_info.csv'
     game_teams_path = '../cross_check_spec_harness/data/game_teams_stats.csv'
@@ -25,6 +25,19 @@ describe StatTracker do
     expect(@stat_tracker).to be_a(StatTracker)
   end
 
+  it "it finds the team information" do
+    expected = {
+      "team_id" => "18",
+      "franchise_id" => "34",
+      "short_name" => "Nashville",
+      "team_name" => "Predators",
+      "abbreviation" => "NSH",
+      "link" => "/api/v1/teams/18"
+    }
+
+    expect(@stat_tracker.team_info("18")).to eq expected
+  end
+
   it "finds the best season" do
     expect(@stat_tracker.best_season("6")).to eq(20122013)
   end
@@ -34,7 +47,7 @@ describe StatTracker do
   end
 
   it "finds the average_win_percentage" do
-    expect(@stat_tracker.average_win_percentage("6")).to eq(56.27)
+    expect(@stat_tracker.average_win_percentage("18")).to eq(0.52)
   end
 
   it "finds most goals scored" do
@@ -200,6 +213,6 @@ describe StatTracker do
           }
         }
       }
-      expect(@stat_tracker.seasonal_summary("18")).to eq expected
-    end
+    expect(@stat_tracker.seasonal_summary("18")).to eq expected
+  end
 end
