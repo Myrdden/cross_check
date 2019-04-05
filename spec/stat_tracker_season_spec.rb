@@ -50,6 +50,11 @@ describe StatTracker do
     expect(@stat_tracker.most_accurate_team("20142015")).to eq "Flames"
   end
 
+  it "can find least accurate team" do
+    expect(@stat_tracker.least_accurate_team("20132014")).to eq "Sabres"
+    expect(@stat_tracker.least_accurate_team("20142015")).to eq "Coyotes"
+  end
+
   it "can find most hits" do
     expect(@stat_tracker.most_hits("20132014")).to eq "Kings"
     expect(@stat_tracker.most_hits("20142015")).to eq "Islanders"
