@@ -1,5 +1,19 @@
-class League
+module MemoLeague
+  def memo(name)
+    fn = instance_method(name)
+    @@league_stats = Hash.new{|k,v| k[v] = {}} if !defined? @@league_stats
 
+    define_method(name) do
+      if !@@league_stats.has_key?(name)
+        @@league_stats[name] = fn.bind(self).call
+      end
+      return @@league_stats[name]
+    end
+  end
+end
+
+class League
+  extend MemoLeague
   def initialize(teams)
     @teams = teams
   end
