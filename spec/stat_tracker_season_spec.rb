@@ -64,4 +64,9 @@ describe StatTracker do
     expect(@stat_tracker.fewest_hits("20132014")).to eq "Devils"
     expect(@stat_tracker.fewest_hits("20142015")).to eq "Wild"
   end
+
+  it "can find powerplay percentage" do
+    expect(@stat_tracker.power_play_goal_percentage("20132014")).to eq 0.22
+    expect(@stat_tracker.power_play_goal_percentage("20142015")).to eq 0.21
+  end
 end

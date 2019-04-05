@@ -41,4 +41,6 @@ class StatTracker
   def least_accurate_team(season); return @seasons.least_accurate_team(season) end
   def most_hits(season); return @seasons.most_hits(season) end
   def fewest_hits(season); return @seasons.fewest_hits(season) end
+  def power_play_goal_percentage(season)
+    return @seasons.power_play_goal_percentage(season) end
 end

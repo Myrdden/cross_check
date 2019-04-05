@@ -88,4 +88,9 @@ class Team
   def self.total_hits(games)
     return games.sum {|x| x[:hits].to_i}
   end
+
+  def self.powerplays(games)
+    return (games.sum {|x| x[:power_play_goals].to_f} \
+      / games.sum {|x| x[:goals].to_f})
+  end
 end

@@ -102,4 +102,14 @@ class Seasons
   memo def fewest_hits(season)
     return get_hits(season).min_by {|k,v| v}[0]
   end
+
+  memo def power_play_goal_percentage(season)
+    stats = []
+    @teams.teams.each do |_, team|
+      if team.games_by_season[season]
+        stats << Team.powerplays(team.games_by_season[season])
+      end
+    end
+    return (stats.sum / stats.count.to_f).round(2)
+  end
 end
