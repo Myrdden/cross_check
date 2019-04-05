@@ -25,16 +25,20 @@ class League
   end
 
   def best_offense # highest goals per game
-    #get all teams in data
-    #find all games played by team
-    #count all goals scored by team / all games played.
-    #find highest average
-    #return string of team_name
-  end # returns team name as a string
+    game_average = {}
+    @teams.teams.each do |_, team|
+      game_average[team[:team_name]] = (team.games.sum{|game| game.goals} / team.games.count.to_f)
+    end
+    return game_average.max_by{|k,v| v}[0]
+  end
 
-  def worst_offense # game or stats
-    #inverse of above.
-  end # returns team name as a string
+  def worst_offense
+    game_average = {}
+    @teams.teams.each do |_, team|
+      game_average[team[:team_name]] = (team.games.sum{|game| game.goals} / team.games.count.to_f)
+    end
+    return game_average.min_by{|k,v| v}[0]
+  end
 
   def best_defense # game or stats
     #get all teams in data
