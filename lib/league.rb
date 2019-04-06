@@ -25,43 +25,43 @@ class League
   def best_offense # highest goals per game
     game_arg = {}
     @teams.teams.each do |_, team|
-      game_arg[team[:team_name]] = (team.games.sum{|game| game.goals} \
+      game_arg[team] = (team.games.sum{|game| game.goals} \
       / team.games.count.to_f)
     end
-    return game_arg.max_by{|k,v| v}[0]
+    return game_arg.max_by{|k,v| v}[0][:team_name]
   end
 
   def worst_offense
     game_arg = {}
     @teams.teams.each do |_, team|
-      game_arg[team[:team_name]] = (team.games.sum{|game| game.goals} \
+      game_arg[team] = (team.games.sum{|game| game.goals} \
       / team.games.count.to_f)
     end
-    return game_arg.min_by{|k,v| v}[0]
+    return game_arg.min_by{|k,v| v}[0][:team_name]
   end
 
   def best_defense
     game_arg = {}
     @teams.teams.each do |_, team|
-      game_arg[team[:team_name]] = (team.games.sum{|game| game.against_goals} \
+      game_arg[team] = (team.games.sum{|game| game.against_goals} \
       / team.games.count.to_f)
     end
-    return game_arg.min_by{|k,v| v}[0]
+    return game_arg.min_by{|k,v| v}[0][:team_name]
   end
 
   def worst_defense
     game_arg = {}
     @teams.teams.each do |_, team|
-      game_arg[team[:team_name]] = (team.games.sum{|game| game.against_goals} \
+      game_arg[team] = (team.games.sum{|game| game.against_goals} \
       / team.games.count.to_f)
     end
-    return game_arg.max_by{|k,v| v}[0]
+    return game_arg.max_by{|k,v| v}[0][:team_name]
   end
 
   def highest_scoring_visitor
     game_arg = {}
     @teams.teams.each do |_, team|
-      game_arg[team[:team_name]] = team.games.sum do |game|
+      game_arg[team] = team.games.sum do |game|
         if !game.home?
           (game.goals / team.games.count.to_f)
         else
@@ -69,13 +69,13 @@ class League
         end
       end
     end
-    return game_arg.max_by{|k,v| v}[0]
+    return game_arg.max_by{|k,v| v}[0][:team_name]
   end
 
   def lowest_scoring_visitor
     game_arg = {}
     @teams.teams.each do |_, team|
-      game_arg[team[:team_name]] = team.games.sum do |game|
+      game_arg[team] = team.games.sum do |game|
         if !game.home?
           (game.goals / team.games.count.to_f)
         else
@@ -83,13 +83,13 @@ class League
         end
       end
     end
-    return game_arg.min_by{|k,v| v}[0]
+    return game_arg.min_by{|k,v| v}[0][:team_name]
   end
 
   def highest_scoring_home_team
     game_arg = {}
     @teams.teams.each do |_, team|
-      game_arg[team[:team_name]] = team.games.sum do |game|
+      game_arg[team] = team.games.sum do |game|
         if game.home?
           (game.goals / team.games.count.to_f)
         else
@@ -97,13 +97,13 @@ class League
         end
       end
     end
-    return game_arg.max_by{|k,v| v}[0]
+    return game_arg.max_by{|k,v| v}[0][:team_name]
   end
 
   def lowest_scoring_home_team
     game_arg = {}
     @teams.teams.each do |_, team|
-      game_arg[team[:team_name]] = team.games.sum do |game|
+      game_arg[team] = team.games.sum do |game|
         if game.home?
           (game.goals / team.games.count.to_f)
         else
@@ -111,35 +111,39 @@ class League
         end
       end
     end
-    return game_arg.min_by{|k,v| v}[0]
+    return game_arg.min_by{|k,v| v}[0][:team_name]
   end
 
   def winningest_team
     game_arg = {}
     @teams.teams.each do |_, team|
-      game_arg[team[:team_name]] = (team.games.count{|game| game.won?} \
+      game_arg[team] = (team.games.count{|game| game.won?} \
       / team.games.count.to_f)
     end
-    return game_arg.max_by{|k,v| v}[0]
+    return game_arg.max_by{|k,v| v}[0][:team_name]
   end
 
-  def best_fans # stats
-    #get all teams in data
-    #find all games played by team
-    #find count of winning away games / total games.
-    #find count of winning home games / total games. ##possible reuse of home team methods
-    #determine difference, ln 77 - ln 76
-    #find highest
-    #eturn string of team_name
-  end # returns team name as a string
+  def best_fans
+    game_arg = {}
+    @teams.teams.each do |_, team|
+      home_win = (team.games.count{|game| game.won? && game.home?} / \
+          team.games.count{|game| game.home?}.to_f)
+      away_win = (team.games.count{|game| game.won? && !game.home?} / \
+        team.games.count{|game| !game.home?}.to_f)
+      game_arg[team] = (home_win - away_win)
+    end
+    return game_arg.max_by{|k,v| v}[0][:team_name]
+  end
 
-  def worst_fans #stats
-    #get all teams in data
-    #find all games played by team
-    #find count of winning away games / total games.
-    #find count of winning home games / total games. ##possible reuse of home team methods
-    #determine difference, ln 86 - ln 87
-    #find ALL that are positive and shovel into return array
-    #eturn array from 89
-  end # returns array of all teams
+  def worst_fans
+    game_arg = []
+    @teams.teams.each do |_, team|
+      home_win = (team.games.count{|game| game.won? && game.home?} / \
+          team.games.count{|game| game.home?}.to_f)
+      away_win = (team.games.count{|game| game.won? && !game.home?} / \
+        team.games.count{|game| !game.home?}.to_f)
+      game_arg << team[:team_name] if (away_win - home_win) > 0
+    end
+    return game_arg
+  end
 end
