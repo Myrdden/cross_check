@@ -34,7 +34,7 @@ class Seasons
         posts = team.games_by_season[season].find_all {|x| x.game_type == "P"}
         post = Team.average_win_percent(posts) if !posts.empty?
         post ||= 0.0
-        stats[team[:team_name]] = (reg - post).round(2)
+        stats[team] = (reg - post).round(2)
       end
     end
     return stats
@@ -55,7 +55,7 @@ class Seasons
     stats = {}
     @teams.teams.each do |_, team|
       if team.games_by_season[season]
-        stats[team[:team_name]] = Team.shots_to_goals_ratio(team.games_by_season[season])
+        stats[team] = Team.shots_to_goals_ratio(team.games_by_season[season])
       end
     end
     return stats
@@ -65,18 +65,18 @@ class Seasons
     stats = {}
     @teams.teams.each do |_, team|
       if team.games_by_season[season]
-        stats[team[:team_name]] = Team.total_hits(team.games_by_season[season])
+        stats[team] = Team.total_hits(team.games_by_season[season])
       end
     end
     return stats
   end
 
   memo def biggest_bust(season)
-    return get_average_stats(season).max_by {|k,v| v}[0]
+    return get_average_stats(season).max_by {|k,v| v}[0][:team_name]
   end
 
   memo def biggest_surprise(season)
-    return get_average_stats(season).min_by {|k,v| v}[0]
+    return get_average_stats(season).min_by {|k,v| v}[0][:team_name]
   end
 
   memo def winningest_coach(season)
@@ -88,19 +88,19 @@ class Seasons
   end
 
   memo def most_accurate_team(season)
-    return get_shots_goals_ratio(season).max_by {|k,v| v}[0]
+    return get_shots_goals_ratio(season).max_by {|k,v| v}[0][:team_name]
   end
 
   memo def least_accurate_team(season)
-    return get_shots_goals_ratio(season).min_by {|k,v| v}[0]
+    return get_shots_goals_ratio(season).min_by {|k,v| v}[0][:team_name]
   end
 
   memo def most_hits(season)
-    return get_hits(season).max_by {|k,v| v}[0]
+    return get_hits(season).max_by {|k,v| v}[0][:team_name]
   end
 
   memo def fewest_hits(season)
-    return get_hits(season).min_by {|k,v| v}[0]
+    return get_hits(season).min_by {|k,v| v}[0][:team_name]
   end
 
   memo def power_play_goal_percentage(season)

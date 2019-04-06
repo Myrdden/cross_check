@@ -10,7 +10,7 @@ class Game
     @season = inp[4]
     @game_type = inp[5]
     @stats = inp[6]
-    @stats[:HoA] = @stats[:_ho_a]
+    @stats[:HoA] = @stats.delete(:_ho_a)
     @home = @stats[:HoA] == "home"
     @won = @stats[:won] == "TRUE"
   end
