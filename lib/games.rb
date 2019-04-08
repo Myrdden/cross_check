@@ -1,7 +1,22 @@
 require './lib/decor/rec'
 
+module MemoGames
+  def memo(name)
+    fn = instance_method(name)
+    @@game_stats = Hash.new{|k,v| k[v] = {}} if !defined? @@game_stats
+
+    define_method(name) do
+      if !@@game_stats.has_key?(name)
+        @@game_stats[name] = fn.bind(self).call
+      end
+      return @@game_stats[name]
+    end
+  end
+end
+
 class Games
   extend Recursive
+  extend MemoGames
   attr_reader :games
   def initialize(games)
     @games = games
@@ -28,78 +43,51 @@ class Games
     get_score_differences(xs, out)
   end
 
-  def highest_total_score
-    if !@game_stats.has_key?(:highest)
-      @game_stats[:highest] = get_total_score(@games, []).max
-    end
-    return @game_stats[:highest]
+  memo def highest_total_score
+    return get_total_score(@games, []).max
   end
 
-  def lowest_total_score
-    if !@game_stats.has_key?(:lowest)
-      @game_stats[:lowest] = get_total_score(@games, []).min
-    end
-    return @game_stats[:lowest]
+  memo def lowest_total_score
+    return get_total_score(@games, []).min
   end
 
-  def biggest_blowout
-    if !@game_stats.has_key?(:difference)
-      @game_stats[:difference] = get_score_differences(@games, []).max
-    end
-    return @game_stats[:difference]
+  memo def biggest_blowout
+    return get_score_differences(@games, []).max
   end
 
-  def percentage_home_wins
-    if !@game_stats.has_key?(:home_wins)
-      home_wins = @games.count {|x| x[:home_goals] > x[:away_goals]}.to_f
-      @game_stats[:home_wins] = (home_wins / @games.count).round(2)
-    end
-    return @game_stats[:home_wins]
+  memo def percentage_home_wins
+    home_wins = @games.count {|x| x[:home_goals] > x[:away_goals]}.to_f
+    return (home_wins / @games.count).round(2)
   end
 
-  def percentage_visitor_wins
-    if !@game_stats.has_key?(:away_wins)
-      away_wins = @games.count {|x| x[:away_goals] > x[:home_goals]}.to_f
-      @game_stats[:away_wins] = (away_wins / @games.count).round(2)
-    end
-    return @game_stats[:away_wins]
+  memo def percentage_visitor_wins
+    away_wins = @games.count {|x| x[:away_goals] > x[:home_goals]}.to_f
+    return (away_wins / @games.count).round(2)
   end
 
-  def average_goals_per_game
-    if !@game_stats.has_key?(:average_game)
-      @game_stats[:average_game] = (get_total_score(@games, []).sum / \
-        @games.count.to_f).round(2)
-    end
-    return @game_stats[:average_game]
+  memo def average_goals_per_game
+    return (get_total_score(@games, []).sum / @games.count.to_f).round(2)
   end
 
-  def games_in_seasons
-    if !@game_stats.has_key?(:season_games)
-      @game_stats[:season_games] = @games.group_by {|x| x[:season]}
-    end
-    return @game_stats[:season_games]
+  memo def games_in_seasons
+    return @games.group_by {|x| x[:season]}
   end
 
   def count_of_games_by_season
-    if !@game_stats.has_key?(:games_season)
-      seasons = games_in_seasons
-      @game_stats[:games_season] = {}
-      seasons.each do |season|
-        @game_stats[:games_season][season[0]] = season[1].count
-      end
+    seasons = games_in_seasons
+    stats = {}
+    seasons.each do |season|
+      stats[season[0]] = season[1].count
     end
-    return @game_stats[:games_season]
+    return stats
   end
 
   def average_goals_by_season
-    if !@game_stats.has_key?(:average_season)
-      seasons = games_in_seasons
-      @game_stats[:average_season] = {}
-      seasons.each do |season|
-        @game_stats[:average_season][season[0]] = \
-          (get_total_score(season[1], []).sum / season[1].count.to_f).round(2)
-      end
+    seasons = games_in_seasons
+    stats = {}
+    seasons.each do |season|
+      stats[season[0]] = (get_total_score(season[1], []).sum / season[1].count.to_f).round(2)
     end
-    return @game_stats[:average_season]
+    return stats
   end
 end

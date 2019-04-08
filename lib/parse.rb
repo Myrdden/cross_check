@@ -40,7 +40,6 @@ class ParseCSV
       teams[line[5]].games_by_season[gameB.season] ||= []
       teams[line[5]].games_by_season[gameB.season] << gameB
     end
-    #require 'pry'; binding.pry
     return gamesOut
   end
 

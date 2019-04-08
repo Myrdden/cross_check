@@ -1,6 +1,6 @@
 require './lib/team'
 require './lib/games'
-require './lib/decor/hash_patch.rb'
+require './lib/decor/hash_patch'
 
 module MemoTeam
   def memo(name)
