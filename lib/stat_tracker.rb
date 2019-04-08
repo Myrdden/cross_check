@@ -1,7 +1,6 @@
 require './lib/parse'
 require './lib/games'
 require './lib/teams'
-require './lib/stats'
 require './lib/seasons'
 require './lib/league'
 
