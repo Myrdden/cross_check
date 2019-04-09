@@ -62,9 +62,9 @@ template = %{
           <li>The team with the highest average score per game as
           the home team is <%= @stat_tracker.highest_scoring_home_team %></li>
           <li>The team with the highest win percentage overall is
-          <%= @stat_tracker.highest_winningest_team %></li>
+          <%= @stat_tracker.winningest_team %></li>
           <li>The team with the best fans is
-          <%= @stat_tracker.highest_best_fans %></li>
+          <%= @stat_tracker.best_fans %></li>
       </ul>
 
       </p>
@@ -77,4 +77,6 @@ rhtml = ERB.new(template)
 
 stat_builder = StatBuilder.new
 
-rhtml.run(stat_builder.get_binding)
+index = File.open("./site/index.html", "w+") do |f|
+  f.write rhtml.result(stat_builder.get_binding)
+end
