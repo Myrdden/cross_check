@@ -14,26 +14,27 @@ class StatBuilder
       stats: game_teams_path
     }
     @stat_tracker = StatTracker.new(locations)
-    @goal_string = ""
-    @testhash = {key: "value"}
   end
 
   def get_binding
     binding
   end
 
-  def goal_parser
+  def season_parcer
     acc = ""
-    @stat_tracker.average_goals_by_season.each_pair do |k, v|
-      modify = k.dup.insert(4, "-")
-      acc += "#{modify}: #{v} <br />"
+    @stat_tracker.average_goals_by_season.each_key do |k|
+      acc += "#{k.dup.insert(4, "-")} <br />"
     end
     return acc
   end
 
-  @testhash = {key: "value"}
-
-
+  def goal_parser
+    acc = ""
+    @stat_tracker.average_goals_by_season.each_value do |v|
+      acc += "#{v} <br />"
+    end
+    return acc
+  end
 end
 
 template = %{
@@ -50,46 +51,83 @@ template = %{
 
       <h2>General Stats</h2>
 
-      <ul>
-          <li>The highest total scoring game on record had
-          <%= @stat_tracker.highest_total_score %> goals.</li>
-          <li>The lowest total scoring game on record had
-          <%= @stat_tracker.lowest_total_score %> goals.</li>
-          <li>The biggest blowout was by <%= @stat_tracker.biggest_blowout %>
-          goals.</li>
-          <li>The percentage of home team wins was
-          <%= @stat_tracker.percentage_home_wins %> overall.</li>
-          <li>The percentage of visitor team wins was
-          <%= @stat_tracker.percentage_visitor_wins %> overall.</li>
-          <li>The average goals scored per game was
-          <%= @stat_tracker.average_goals_per_game %> overall.</li>
-          <li>The average goals scored per game by season were:<br />
-          <%= self.goal_parser%></li>
-          <li>There are <%= @stat_tracker.count_of_teams %> teams in the league </li>
-          <li>The team with the best overall offense is
-          <%= @stat_tracker.best_offense %></li>
-          <li>The team with the worst overall offense is
-          <%= @stat_tracker.worst_offense %></li>
-          <li>The team with the best overall defence is
-          <%= @stat_tracker.best_defense %></li>
-          <li>The team with the worst overall defence is
-          <%= @stat_tracker.worst_defense %></li>
-          <li>The team with the highest average score per game as
-          a visiting team is <%= @stat_tracker.highest_scoring_visitor %></li>
-          <li>The team with the highest average score per game as
-          the home team is <%= @stat_tracker.highest_scoring_home_team %></li>
-          <li>The team with the highest win percentage overall is
-          <%= @stat_tracker.winningest_team %></li>
-          <li>The team with the best fans is
-          <%= @stat_tracker.best_fans %></li>
-          <li>Test
-          <%= @stat_tracker. %></li>
-      </ul>
-
-      </p>
-
+      <table>
+        <tbody>
+        <tr>
+        <td>The highest total scoring game on record had:</td><hr />
+        <td><%= @stat_tracker.highest_total_score %> goals</td>
+        </tr>
+        <tr>
+        <td>The lowest total scoring game on record had:</td>
+        <td><%= @stat_tracker.lowest_total_score %> goals</td>
+        </tr>
+        <tr>
+        <td>The biggest blowout was by:</td>
+        <td><%= @stat_tracker.biggest_blowout %> goals</td>
+        </tr>
+        <tr>
+        <td>The overall percentage of home team wins was:</td>
+        <td><%= @stat_tracker.percentage_home_wins %></td>
+        </tr>
+        <tr>
+        <td>The overall percentage of visitor team wins was:</td>
+        <td><%= @stat_tracker.percentage_visitor_wins %></td>
+        </tr>
+        <tr>
+        <td>The overall average goals scored per game was:</td>
+        <td><%= @stat_tracker.average_goals_per_game %></td>
+        </tr>
+        <tr>
+        <td>The average goals scored per game by season were:<br />
+        <%= self.season_parcer %></td>
+        <td><br /><%= self.goal_parser%></td>
+        </tr>
+        <tr>
+        <td>Total teams in the league:</td>
+        <td><%= @stat_tracker.count_of_teams %></td>
+        </tr>
+        <tr>
+        <td>The team with the best overall offense is:</td>
+        <td><%= @stat_tracker.best_offense %></td>
+        </tr>
+        <tr>
+        <td>The team with the worst overall offense is:</td>
+        <td><%= @stat_tracker.worst_offense %></td>
+        </tr>
+        <tr>
+        <td>The team with the best overall defence is:</td>
+        <td><%= @stat_tracker.best_defense %></li></td>
+        </tr>
+        <tr>
+        <td>The team with the worst overall defence is:</td>
+        <td><%= @stat_tracker.worst_defense %></td>
+        </tr>
+        <tr>
+        <td>The team with the highest average score per game as
+        a visiting team is:</td>
+        <td><%= @stat_tracker.highest_scoring_visitor %></td>
+        </tr>
+        <tr>
+        <td>The team with the highest average score per game as
+        the home team is:</td>
+        <td> <%= @stat_tracker.highest_scoring_home_team %></td>
+        </tr>
+        <tr>
+        <td>The team with the highest win percentage overall is</td>
+        <td><%= @stat_tracker.winningest_team %></td>
+        </tr>
+        <tr>
+        <td>The team with the best fans (biggest difference in home team
+        wins vs. away team wins) is:</td>
+        <td><%= @stat_tracker.best_fans %></td>
+        </tr>
+        </tbody>
+      </table>
     </body>
   </html>
+  body {
+    background-image: url("paper.gif");
+  }
 }
 
 
