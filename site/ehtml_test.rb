@@ -14,24 +14,41 @@ class StatBuilder
       stats: game_teams_path
     }
     @stat_tracker = StatTracker.new(locations)
+    @goal_string = ""
+    @testhash = {key: "value"}
   end
 
   def get_binding
     binding
   end
+
+  def goal_parser
+    acc = ""
+    @stat_tracker.average_goals_by_season.each_pair do |k, v|
+      modify = k.dup.insert(4, "-")
+      acc += "#{modify}: #{v} <br />"
+    end
+    return acc
+  end
+
+  @testhash = {key: "value"}
+
+
 end
 
 template = %{
   <html>
-    <head><title>Super Hocky Sports Time Deluxe!!</title></head>
+    <head><title>Super Hockey Sports Time Deluxe!!</title></head>
     <body>
 
-      <h1>Super Hocky Sports Time Deluxe!!</h1>
+      <h1>Super Hockey Sports Time Deluxe!!</h1>
 
       <p> Welcome to our hyper professional hockey stat page, eh!</p>
 
       <p> We used the NHL stats from the 2012 - 2013 to to 2017 - 2018 seasons to
       generate our stats.</p>
+
+      <h2>General Stats</h2>
 
       <ul>
           <li>The highest total scoring game on record had
@@ -46,8 +63,8 @@ template = %{
           <%= @stat_tracker.percentage_visitor_wins %> overall.</li>
           <li>The average goals scored per game was
           <%= @stat_tracker.average_goals_per_game %> overall.</li>
-          <li>The average goals scored per game by season were:
-          <%= @stat_tracker.average_goals_by_season %>.</li>
+          <li>The average goals scored per game by season were:<br />
+          <%= self.goal_parser%></li>
           <li>There are <%= @stat_tracker.count_of_teams %> teams in the league </li>
           <li>The team with the best overall offense is
           <%= @stat_tracker.best_offense %></li>
@@ -65,6 +82,8 @@ template = %{
           <%= @stat_tracker.winningest_team %></li>
           <li>The team with the best fans is
           <%= @stat_tracker.best_fans %></li>
+          <li>Test
+          <%= @stat_tracker. %></li>
       </ul>
 
       </p>
@@ -73,10 +92,13 @@ template = %{
   </html>
 }
 
+
+#can't call methods in a string. can call ivars
 rhtml = ERB.new(template)
 
 stat_builder = StatBuilder.new
+# stat_builder.test
 
-index = File.open("./site/index.html", "w+") do |f|
+File.open("./site/index.html", "w+") do |f|
   f.write rhtml.result(stat_builder.get_binding)
 end

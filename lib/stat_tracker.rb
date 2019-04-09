@@ -5,6 +5,9 @@ require './lib/seasons'
 require './lib/league'
 
 class StatTracker
+
+  
+
   def initialize(locations)
     if locations.values.all? {|x| File.extname(x) == ".csv"}
       @teams = Teams.new(ParseCSV.teams_setup(locations[:teams]))
