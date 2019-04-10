@@ -44,6 +44,7 @@ class ParseCSV
   end
 
   def self.getStats(game, team, home = false)
+    # require 'pry'; binding.pry
     stat = home ? @stats[game][1] : @stats[game][0]
     return self.hashify(@keys, stat) if stat != nil
     return {}

@@ -42,7 +42,7 @@ describe StatTracker do
     expect(@stat_tracker.best_season("6")).to eq(20122013)
   end
 
-  it "finds the best season" do
+  it "finds the worst season" do
     expect(@stat_tracker.worst_season("6")).to eq(20122013)
   end
 

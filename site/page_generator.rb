@@ -8,6 +8,10 @@ class StatBuilder
     team_path = '../cross_check_spec_harness/data/team_info.csv'
     game_teams_path = '../cross_check_spec_harness/data/game_teams_stats.csv'
 
+    # game_path = './data/game.csv'
+    # team_path = './data/team_info.csv'
+    # game_teams_path = './data/game_teams_stats.csv'
+
     locations = {
       games: game_path,
       teams: team_path,
@@ -20,10 +24,10 @@ class StatBuilder
     binding
   end
 
-  def season_parcer
+  def season_parcer(seasons)
     acc = ""
-    @stat_tracker.average_goals_by_season.each_key do |k|
-      acc += "#{k.dup.insert(4, "-")} <br />"
+    seasons.each do |season|
+      acc += "#{season.dup.insert(4, "-")} <br />"
     end
     return acc
   end
@@ -31,7 +35,7 @@ class StatBuilder
   def goal_parser
     acc = ""
     @stat_tracker.average_goals_by_season.each_value do |v|
-      acc += "#{v} <br />"
+      acc += "#{v} goals <br />"
     end
     return acc
   end
@@ -49,12 +53,16 @@ template = %{
       <p> We used the NHL stats from the 2012 - 2013 to to 2017 - 2018 seasons to
       generate our stats.</p>
 
+      <hr />
+
       <h2>General Stats</h2>
+
+      <hr />
 
       <table>
         <tbody>
         <tr>
-        <td>The highest total scoring game on record had:</td><hr />
+        <td>The highest total scoring game on record had:</td>
         <td><%= @stat_tracker.highest_total_score %> goals</td>
         </tr>
         <tr>
@@ -67,19 +75,19 @@ template = %{
         </tr>
         <tr>
         <td>The overall percentage of home team wins was:</td>
-        <td><%= @stat_tracker.percentage_home_wins %></td>
+        <td><%= (@stat_tracker.percentage_home_wins * 100).round  %> % </td>
         </tr>
         <tr>
         <td>The overall percentage of visitor team wins was:</td>
-        <td><%= @stat_tracker.percentage_visitor_wins %></td>
+        <td><%= (@stat_tracker.percentage_visitor_wins * 100).round %> %</td>
         </tr>
         <tr>
         <td>The overall average goals scored per game was:</td>
-        <td><%= @stat_tracker.average_goals_per_game %></td>
+        <td><%= @stat_tracker.average_goals_per_game %> goals </td>
         </tr>
         <tr>
         <td>The average goals scored per game by season were:<br />
-        <%= self.season_parcer %></td>
+        <%= self.season_parcer(@stat_tracker.average_goals_by_season.keys) %></td>
         <td><br /><%= self.goal_parser%></td>
         </tr>
         <tr>
@@ -123,11 +131,32 @@ template = %{
         </tr>
         </tbody>
       </table>
+
+      <h2>Team Stats</h2>
+
+      <hr />
+
+      <h3>New Jersey Devils</h3>
+
+      <table>
+        <tbody>
+        <tr>
+        <td>The best season the team has had was:</td>
+        <td><%= self.season_parcer([@stat_tracker.best_season("1").to_s]) %></td>
+        </tr>
+        <tr>
+        <td>The worst season the team has had was:</td>
+        <td><%= self.season_parcer([@stat_tracker.worst_season("1").to_s]) %></td>
+        </tr>
+        <tr>
+        <td>The team's average win percentage is:</td>
+        <td><%= (@stat_tracker.average_win_percentage("1") * 100).round %> % </td>
+        </tr>
+        </tbody>
+      </table>
+
     </body>
   </html>
-  body {
-    background-image: url("paper.gif");
-  }
 }
 
 
