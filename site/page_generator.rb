@@ -39,27 +39,30 @@ class StatBuilder
     end
     return acc
   end
+
 end
 
 template = %{
   <html>
-    <head><title>Super Hockey Sports Time Deluxe!!</title></head>
+    <head>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <title>Super Hockey Sports Time Deluxe!!</title></head>
     <body>
+      <div id="text">
+      <h1 class="title">Super Hockey Sports Time Deluxe!!</h1>
 
-      <h1>Super Hockey Sports Time Deluxe!!</h1>
+      <p class="readable"> Welcome to our hyper professional hockey stat page, eh!</p>
 
-      <p> Welcome to our hyper professional hockey stat page, eh!</p>
-
-      <p> We used the NHL stats from the 2012 - 2013 to to 2017 - 2018 seasons to
+      <p class="readable"> We used the NHL stats from the 2012 - 2013 to 2017 - 2018 seasons to
       generate our stats.</p>
 
       <hr />
 
-      <h2>General Stats</h2>
+      <h2 class="readable">General Stats</h2>
 
       <hr />
 
-      <table>
+      <table class="readable">
         <tbody>
         <tr>
         <td>The highest total scoring game on record had:</td>
@@ -132,29 +135,13 @@ template = %{
         </tbody>
       </table>
 
-      <h2>Team Stats</h2>
+      <h2 class="readable">Team Stats</h2>
 
       <hr />
 
-      <h3>New Jersey Devils</h3>
-
-      <table>
-        <tbody>
-        <tr>
-        <td>The best season the team has had was:</td>
-        <td><%= self.season_parcer([@stat_tracker.best_season("1").to_s]) %></td>
-        </tr>
-        <tr>
-        <td>The worst season the team has had was:</td>
-        <td><%= self.season_parcer([@stat_tracker.worst_season("1").to_s]) %></td>
-        </tr>
-        <tr>
-        <td>The team's average win percentage is:</td>
-        <td><%= (@stat_tracker.average_win_percentage("1") * 100).round %> % </td>
-        </tr>
-        </tbody>
-      </table>
-
+      <img src="http://i.ebayimg.com/images/i/180730518769-0-1/s-l1000.jpg"
+      alt="People read this?">
+      </div>
     </body>
   </html>
 }

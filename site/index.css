@@ -1,0 +1,25 @@
+body
+  {background: url(http://www.sherv.net/cm/emoticons/hockey/hockey-team-smiley-emoticon.gif)}
+
+  .readable {background: white}
+
+  .title {
+  color: #FFF;
+  background-color: #232323;
+  text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #49ff18, 0 0 30px #49FF18, 0 0 40px #49FF18, 0 0 55px #49FF18, 0 0 75px #49ff18
+  }
+
+  #text {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 20px;
+  letter-spacing: 2px;
+  word-spacing: 2px;
+  color: #000000;
+  font-weight: 700;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  margin-right: 20%;
+  margin-left: 20%;
+  }
