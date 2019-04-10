@@ -1,10 +1,37 @@
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="./views/team.css">
-    <title>Team Stats for: The <%=@team[:short_name]%> <%=@team[:team_name]%></title>
+    <link rel="stylesheet" type="text/css" href="/views/team.css">
+    <title>Team Stats for: The <%=@stats.teams[@team][:short_name]%> <%=@stats.teams[@team][:team_name]%></title>
   </head>
   <body>
-
-    
+    <h2>Stats for The <%=@stats.teams[@team][:short_name]%> <%=@stats.teams[@team][:team_name]%></h2>
+    <table>
+      <tbody>
+        <tr>
+        <td>Best Season:</td>
+        <td><%=@stats.best_season(@team).to_s.insert(4, " - ")%></td>
+        </tr>
+        <tr>
+        <td>Worst Season:</td>
+        <td><%=@stats.worst_season(@team).to_s.insert(4, " - ")%></td>
+        </tr>
+        <tr>
+        <td>Average Win Percentage:</td>
+        <td><%=@stats.average_win_percentage(@team)%></td>
+        </tr>
+        <tr>
+        <td>Most Goals:</td>
+        <td><%=@stats.most_goals_scored(@team)%></td>
+        </tr>
+        <tr>
+        <td>Fewest Goals Scored:</td>
+        <td><%=@stats.fewest_goals_scored(@team)%></td>
+        </tr>
+        <tr>
+        <td>Favourite Opponent:</td>
+        <td><%=@stats.favorite_opponent(@team)%></td>
+        </tr>
+      </tbody>
+    </table>
   </body>
 </html>

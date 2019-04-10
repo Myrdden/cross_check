@@ -1,5 +1,6 @@
 require 'erb'
 require 'sinatra'
+require 'sinatra/reloader'
 require './lib/stat_tracker'
 
 set :public_folder, File.dirname(__FILE__)
@@ -24,9 +25,14 @@ class StatBuilder
   end
 end
 
+get '/' do
+  
+end
+
 get '/teams/:team_id' do |team_id|
-  @test = StatBuilder.new
-  @team = @test.stat_tracker.teams[team_id]
+  builder = StatBuilder.new
+  @stats = builder.stat_tracker
+  @team = team_id
   template = File.read('./site/templates/team_temp.html')
   erb template
 end
