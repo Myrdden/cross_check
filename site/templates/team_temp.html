@@ -4,34 +4,86 @@
     <title>Team Stats for: The <%=@stats.teams[@team][:short_name]%> <%=@stats.teams[@team][:team_name]%></title>
   </head>
   <body>
-    <h2>Stats for The <%=@stats.teams[@team][:short_name]%> <%=@stats.teams[@team][:team_name]%></h2>
-    <table>
-      <tbody>
-        <tr>
-        <td>Best Season:</td>
-        <td><%=@stats.best_season(@team).to_s.insert(4, " - ")%></td>
-        </tr>
-        <tr>
-        <td>Worst Season:</td>
-        <td><%=@stats.worst_season(@team).to_s.insert(4, " - ")%></td>
-        </tr>
-        <tr>
-        <td>Average Win Percentage:</td>
-        <td><%=@stats.average_win_percentage(@team)%></td>
-        </tr>
-        <tr>
-        <td>Most Goals:</td>
-        <td><%=@stats.most_goals_scored(@team)%></td>
-        </tr>
-        <tr>
-        <td>Fewest Goals Scored:</td>
-        <td><%=@stats.fewest_goals_scored(@team)%></td>
-        </tr>
-        <tr>
-        <td>Favourite Opponent:</td>
-        <td><%=@stats.favorite_opponent(@team)%></td>
-        </tr>
-      </tbody>
-    </table>
+    <div id="margins" class="clearfix">
+    <div id="content">
+      <h2 class="title">Stats for The <%=@stats.teams[@team][:short_name]%> <%=@stats.teams[@team][:team_name]%></h2>
+      <div id="navBar">
+        <ul class="navBar">
+        <li class="nav"><a class="button" href="/">General Stats</a>
+        <li class="nav"><a class="button" href="/teams/1">Teams</a>
+        </ul>
+      </div>
+      <div id="teamBar">
+        <p class="centerText mainText">PICK A TEAM</p>
+        <p class="smallText centerText">Any Team</p>
+        <div id="teamList">
+          <table class="centerText">
+            <tbody>
+            <%@stats.teams.teams.each do |k, v|%>
+              <%team_name = @stats.teams[k][:short_name] + " " + @stats.teams[k][:team_name]%>
+              <tr>
+              <td><a class="button sideButton" href="/teams/<%=v.id%>"><%=team_name%></a></td>
+              </tr>
+            <%end%>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="teamStats">
+        <table class="readable">
+          <tbody>
+            <tr>
+            <td>Best Season:</td>
+            <td><%=@stats.best_season(@team).to_s.insert(4, " - ")%></td>
+            </tr>
+            <tr>
+            <td>Worst Season:</td>
+            <td><%=@stats.worst_season(@team).to_s.insert(4, " - ")%></td>
+            </tr>
+            <tr>
+            <td>Average Win Percentage:</td>
+            <td><%=@stats.average_win_percentage(@team)%></td>
+            </tr>
+            <tr>
+            <td>Most Goals:</td>
+            <td><%=@stats.most_goals_scored(@team)%></td>
+            </tr>
+            <tr>
+            <td>Fewest Goals Scored:</td>
+            <td><%=@stats.fewest_goals_scored(@team)%></td>
+            </tr>
+            <tr>
+            <td>Favourite Opponent:</td>
+            <td><%=@stats.favorite_opponent(@team)%></td>
+            </tr>
+            <tr>
+            <td>Rival:</td>
+            <td><%=@stats.rival(@team)%></td>
+            </tr>
+            <tr>
+            <td>Biggest Team Blowout:</td>
+            <td><%=@stats.biggest_team_blowout(@team)%></td>
+            </tr>
+            <tr>
+            <td>Worst Loss:</td>
+            <td><%=@stats.worst_loss(@team)%></td>
+            </tr>
+            <tr>
+            <td>Head to Head:</td>
+            <td><table>
+              <tbody>
+                <%@stats.head_to_head(@team).each do |k,v|%>
+                  <tr>
+                    <td><%=k%>: <%=v%></td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
   </body>
 </html>

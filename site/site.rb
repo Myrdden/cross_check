@@ -26,7 +26,10 @@ class StatBuilder
 end
 
 get '/' do
-  
+  builder = StatBuilder.new
+  @stats = builder.stat_tracker
+  template = File.read('./site/templates/general_temp.html')
+  erb template, :trim => '-'
 end
 
 get '/teams/:team_id' do |team_id|
@@ -34,5 +37,5 @@ get '/teams/:team_id' do |team_id|
   @stats = builder.stat_tracker
   @team = team_id
   template = File.read('./site/templates/team_temp.html')
-  erb template
+  erb template, :trim => '-'
 end
